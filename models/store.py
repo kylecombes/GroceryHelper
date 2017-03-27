@@ -42,3 +42,11 @@ class Store:
 
     def __str__(self):
         return '(ID: {0}) {1} at {2}, {3}, {4} {5:05d}'.format(self.store_id, self.name, self.address, self.city, self.state, self.zipcode)
+
+
+class Location:
+
+    def __init__(self, street, state, zipcode):
+        self.street = street
+        self.state = state
+        self.zipcode = zipcode

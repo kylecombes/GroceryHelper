@@ -1,7 +1,8 @@
-from supermarket_api_base import SupermarketAPIBase
-from store import Store
 import requests
 import untangle
+
+from models.store import Store
+from supermarket_api_base import SupermarketAPIBase
 
 
 class StoreFetcher(SupermarketAPIBase):
