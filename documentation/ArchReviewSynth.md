@@ -1,6 +1,5 @@
 # Architecture Review Reflection and Synthesis
 
-Dillinger is a cloud-enabled, mobile-ready, offline-storage, AngularJS powered HTML5 Markdown editor.
 
 **Feedback from Teaching Team:**
 - The audience thinks we are approaching the project in the right direction
