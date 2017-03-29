@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
     LOWEST_ZIP = 501
     HIGHEST_ZIP = 99950
-    DEFAULT_WORKERS = 30
+    DEFAULT_WORKERS = 50
 
     def add_arguments(self, parser):
         # Define the named (optional) arguments that can be used when running this command
