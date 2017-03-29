@@ -1,4 +1,8 @@
+# Don't include our keys or databases
 /keys.py
+*.sqlite3
+migrations/
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
