@@ -1,7 +1,9 @@
-from supermarket_api_base import SupermarketAPIBase
-from store import Store
 import requests
 import untangle
+
+from planner.models import Location, Store
+# from models.store import Store
+from supermarket_api_base import SupermarketAPIBase
 
 
 class StoreFetcher(SupermarketAPIBase):
@@ -34,10 +36,12 @@ class StoreFetcher(SupermarketAPIBase):
                 address = elem.Address.cdata.strip()
                 city = elem.City.cdata.strip()
                 state = elem.State.cdata.strip()
-                zip_str = elem.Zip.cdata.strip()
-                zipcode = int(elem.Zip.cdata) if len(zip_str) > 0 else None
-                phone = elem.Phone.cdata.strip()
-                stores.append(Store(store_id, name, address, city, state, zipcode, phone))
+                zip_str = elem.Zip.cdata.strip()[:5]
+                zipcode = int(zip_str) if len(zip_str) > 0 else None
+                # phone = elem.Phone.cdata.strip()
+                loc = Location(street_address=address, city=city, state=state, zipcode=zipcode)
+                store = Store(store_id=store_id, name=name, location=loc)
+                stores.append(store)
         except IndexError:
             pass
 

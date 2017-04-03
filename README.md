@@ -6,3 +6,6 @@ which stores nearby carry the items and what the best itinerary is to go about p
 
 #### Architecture Review
 The Architecture Review Preparation and Framing document can be found [here](documentation/ArchReviewPrepFraming.md).
+
+#### Architecture Review Reflection and Synthesis
+Notes and reflection from the Architecure Review can be found [here](documentation/ArchReviewSynth.md).
