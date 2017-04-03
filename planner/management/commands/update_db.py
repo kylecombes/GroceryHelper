@@ -55,7 +55,7 @@ class Command(BaseCommand):
         zips_per_worker = math.ceil(zip_range / worker_count)
 
         # Initialize API interface and data structure to store results in
-        sf = StoreFetcher(API_KEY)
+        sf = StoreFetcher(SUPERMARKET_API_KEY)
         sd = StoresDS()
 
         # Start threads to parallelize downloads
