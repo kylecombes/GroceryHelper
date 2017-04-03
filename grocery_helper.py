@@ -19,8 +19,9 @@ class Geocode:
 
 
 """
-Defines back end code that takes in recipe or cuisine from user and outputs
+Defines code that takes in recipe or cuisine from user and outputs
 a list of ingredients that can be used by store finder algorithm.
+URL coded for Yummly API, still waiting to hear back with API key though.
 """
 def userInput():
     pass
@@ -51,6 +52,11 @@ def callAPI(url):
     response_text = f.read()
     response_data = json.loads(str(response_text, "utf-8"))
     return response_data
+
+
+def returnIngredients(response_data):
+    pass
+    #ingredientLines from the output data
 
 
 print(encodeURL('fried chicken', ['apples','chicken','butter'], ['Southern']))
