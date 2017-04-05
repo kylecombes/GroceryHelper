@@ -45,3 +45,12 @@ class Store(models.Model):
         return '(ID: {0}) {1} at {2}'.format(self.store_id, self.name, self.location)
 
 
+class FoodItem(models.Model):
+
+    aisle = models.CharField(max_length=30)
+    category = models.CharField(max_length=30)
+    description = models.CharField(max_length=300)
+    item_id = models.IntegerField()
+    image_url = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    # store = models.ForeignKey(Store, blank=True, null=True)
