@@ -6,7 +6,7 @@ from urllib.request import urlopen
 from urllib.parse import urlencode
 import json
 from pprint import pprint
-#from keys import *
+from keys import *
 url = "https://maps.googleapis.com/maps/api/geocode/json?address=Fenway%20Park"
 
 
@@ -15,9 +15,6 @@ GMAPS_BASE_URL = "https://maps.googleapis.com/maps/api/geocode/json"
 GMAPS_BASE_URL_DIST = "https://maps.googleapis.com/maps/api/distancematrix/json"
 GMAPS_BASE_URL_DIRECT = ""
 
-key_geo = "AIzaSyAArHFBlh8_T8xipXSj6CqbTDdLGzaf7FY"
-key_dist = "AIzaSyBeeT6xSvryf8bgitIi-Io9yfYD-NkGYXY"
-key_direct = "AIzaSyAMzOCvobnpRIm4YdaieFMtJFGkMexkGII"
 
 # A little bit of scaffolding if you want to use it
 
