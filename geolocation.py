@@ -5,14 +5,16 @@ from urllib.parse import urlencode
 import json
 from pprint import pprint
 from keys import *
-url = "https://maps.googleapis.com/maps/api/geocode/json?address=Fenway%20Park"
+#url = "https://maps.googleapis.com/maps/api/geocode/json?address=Fenway%20Park"
 
-def get_json(url):
+def get_json(user_add):
     """
-    Given a properly formatted URL for a JSON web API request, return
+    formats a url to take an address from the user and properly formatts URL
+    for a JSON web API request, return
     a Python JSON object containing the response to that request.
     """
-
+    base_url =  "https://maps.googleapis.com/maps/api/geocode/json?address="
+    url = base_url + user_add
     f = urlopen(url)
     response_text = f.read()
     response_data = str(response_text, "utf-8")
