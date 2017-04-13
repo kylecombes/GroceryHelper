@@ -5,7 +5,7 @@ import requests
 
 def get_ingredients(ingredients, store_id):
     """Given a list of ingredients and a store id, returns a list of ingredients at that store
-    * each ingredient is a dictionary with a keys: category, item_id and name""""
+    * each ingredient is a dictionary with a keys: category, item_id and name"""
     #store_id is store id
     foods_at_store = []
     for food in ingredients:
