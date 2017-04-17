@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from fetch_all import StoreFetcher
+from store_fetcher import StoreFetcher
 from keys import *
 from stores_ds import StoresDS
 import math
