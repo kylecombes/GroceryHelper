@@ -1,9 +1,8 @@
 from django.core.management.base import BaseCommand
 
-from planner.models import *
 from main import Main
+from models import *
 from planning import TripPlanner
-from geolocation import Geolocation
 
 
 class Command(BaseCommand):

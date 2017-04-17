@@ -1,5 +1,5 @@
-from planner.models import Store, Location
 from geolocation import Geolocation
+from models import Store
 
 
 class Main:

@@ -1,12 +1,12 @@
 """Use this file for geo-coding related stuff"""
 
-from urllib.request import urlopen
-from urllib.parse import urlencode
 import json
-from pprint import pprint
-from keys import *
 import math
-from planner.models import Location
+from pprint import pprint
+from urllib.parse import urlencode
+from urllib.request import urlopen
+
+from keys import *
 
 
 class Geolocation:
