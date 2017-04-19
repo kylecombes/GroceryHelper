@@ -4,10 +4,9 @@ from geolocation import Geolocation
 
 class TripPlanner:
 
-    def __init__(self, starting_location, items_needed):
+    def __init__(self, starting_location):
         self.stores = None
         self.starting_location = starting_location
-        self.items_needed = items_needed
 
     def find_routes(self, needed_items, nearby_stores, max_distance):
         """ Finds all the possible routes to purchase the needed items within the specified search radius.
