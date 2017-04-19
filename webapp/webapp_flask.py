@@ -16,10 +16,19 @@ def starting_page():
 @app.route('/app', methods=['GET','POST'])
 def webapp():
     if request.method == 'POST':
-        if request.form['index.html']:
-            return render_template('index.html')
+        #if request.form['index.html']:
+        return redirect(url_for('index'))
+    return render_template('index.html')
     #'The about page'
-
+'''
+@app.route('/about_team', methods=['GET','POST'])
+def webapp():
+    if request.method == 'POST':
+        #if request.form['index.html']:
+        return redirect(url_for('about_team'))
+    return render_template('about_team.html')
+    #'The about page'
+'''
 @app.route('/login', methods=['GET','POST'])
 def login():
    error = None
