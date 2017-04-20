@@ -1,4 +1,8 @@
-from django.core.management.base import BaseCommand
+"""
+    Goes through all of the ZIP codes in the US,
+    requests stores for the, and saves the result
+    to the database.
+"""
 
 from store_fetcher import StoreFetcher
 from keys import *
@@ -6,49 +10,17 @@ from stores_ds import StoresDS
 import math
 import threading
 import time
+import argparse
+
+LOWEST_ZIP = 501
+HIGHEST_ZIP = 99950
+DEFAULT_WORKERS = 50
 
 
-class Command(BaseCommand):
+class StoreDbUpdater:
 
-    help = 'Goes through all of the ZIP codes in the US, requests stores for the, and saves the result.'
-
-    LOWEST_ZIP = 501
-    HIGHEST_ZIP = 99950
-    DEFAULT_WORKERS = 50
-
-    def add_arguments(self, parser):
-        # Define the named (optional) arguments that can be used when running this command
-        parser.add_argument(
-            '-s',
-            '--start-zip',
-            action='store',
-            dest='start-zip',
-            default=self.LOWEST_ZIP,
-            type=int,
-        )
-        parser.add_argument(
-            '-e',
-            '--end-zip',
-            action='store',
-            dest='end-zip',
-            default=self.HIGHEST_ZIP,
-            type=int,
-        )
-        parser.add_argument(
-            '-w',
-            '--workers',
-            action='store',
-            dest='workers',
-            default=self.DEFAULT_WORKERS,
-            type=int,
-        )
-
-    def handle(self, *args, **options):
+    def __init__(self, start_zip, end_zip, worker_count):
         start_time = time.time()
-        # Load any options passed to the command
-        start_zip = options['start-zip']
-        end_zip = options['end-zip']
-        worker_count = options['workers']
 
         # Break up ZIP codes
         zip_range = end_zip - start_zip + 1
@@ -106,7 +78,6 @@ class Command(BaseCommand):
             :param fetcher: a StoreFetcher to use to query for store data - StoreFetcher
             :param store_ds: the data structure holding all the stores downloaded - StoreDS
         """
-        # 10505, 12000
         thread_name = threading.current_thread().getName()
         for zipcode in range(start_zip, end_zip):
             new_stores = fetcher.fetch_all_stores_in_zip(zipcode)
@@ -114,3 +85,36 @@ class Command(BaseCommand):
             print('{0} added {1} stores for ZIP code {2:05}'.format(thread_name, len(new_stores), zipcode))
 
         # print('Fetched data for {0:01d} stores'.format(len(sd.stores_dict)))
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    # Define the named (optional) arguments that can be used when running this command
+    parser.add_argument(
+        '-s',
+        '--start-zip',
+        action='store',
+        dest='start_zip',
+        default=LOWEST_ZIP,
+        type=int,
+    )
+    parser.add_argument(
+        '-e',
+        '--end-zip',
+        action='store',
+        dest='end_zip',
+        default=HIGHEST_ZIP,
+        type=int,
+    )
+    parser.add_argument(
+        '-w',
+        '--workers',
+        action='store',
+        dest='workers',
+        default=DEFAULT_WORKERS,
+        type=int,
+    )
+
+    args = parser.parse_args()
+    sdu = StoreDbUpdater(args.start_zip, args.end_zip, args.workers)
+

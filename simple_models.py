@@ -3,6 +3,8 @@
 
 class Location:
 
+    DB_TABLE_NAME = 'planner_location'
+
     street_address = None
     city = None
     state = None
@@ -10,15 +12,31 @@ class Location:
     latitude = None
     longitude = None
 
+    def __init__(self, street_address, city, state, zipcode, latitude=None, longitude=None):
+        self.street_address = street_address
+        self.city = city
+        self.state = state
+        self.zipcode = zipcode
+        self.latitude = latitude
+        self.longitude = longitude
+
     def __str__(self):
         return '{0}, {1}, {2} {3:05d}'.format(self.street_address, self.city, self.state, self.zipcode)
 
 
 class Store:
 
+    DB_TABLE_NAME = 'planner_store'
+
     store_id = None
     name = None
     location = None
+
+    def __init__(self, store_id, name, location):
+        self.store_id = store_id
+        self.name = name
+        self.location = location
+
 
     def __str__(self):
         return '(ID: {0}) {1} at {2}'.format(self.store_id, self.name, self.location)
