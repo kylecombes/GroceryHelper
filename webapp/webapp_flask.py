@@ -20,15 +20,15 @@ def webapp():
         return redirect(url_for('index'))
     return render_template('index.html')
     #'The about page'
-'''
+
 @app.route('/about_team', methods=['GET','POST'])
-def webapp():
+def webapp_about():
     if request.method == 'POST':
         #if request.form['index.html']:
         return redirect(url_for('about_team'))
     return render_template('about_team.html')
     #'The about page'
-'''
+
 @app.route('/login', methods=['GET','POST'])
 def login():
    error = None
@@ -38,7 +38,18 @@ def login():
            return render_template('address_input.html')
        else:
            error = None
-           return render_template('food_input.html')
+           return render_template('index.html')
+
+@app.route('/input', methods=['GET','POST'])
+def input():
+  error = None
+  if request.method == 'POST':
+      if request.form['No']:
+          error = None
+          return render_template('food_input.html')
+      else:
+          error = None
+          return render_template('index.html')
 
     #the code below is executed if the request method
     #was GET or the credentials were invalid
