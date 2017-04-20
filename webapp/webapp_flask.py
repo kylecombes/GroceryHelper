@@ -51,6 +51,17 @@ def input():
           error = None
           return render_template('index.html')
 
+# @app.route('/food', methods=['GET','POST'])
+# def getting_food():
+#   error = None
+#   if request.method == 'POST':
+#       if request.form['ingredients'] and request.form['']:
+#           error = None
+#           return render_template('food_input.html')
+#       else:
+#           error = None
+#           return render_template('food_input.html')
+
     #the code below is executed if the request method
     #was GET or the credentials were invalid
 if __name__ == '__main__':
