@@ -1,4 +1,4 @@
-from models import Location
+from django_models import Location
 from flask import Flask, current_app
 from database import StoreInfoAccessor
 

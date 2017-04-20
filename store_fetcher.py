@@ -1,7 +1,7 @@
 import requests
 import untangle
 
-from simple_models import Location, Store
+from models import Location, Store
 from supermarket_api_base import SupermarketAPIBase
 
 

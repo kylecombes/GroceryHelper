@@ -1,7 +1,7 @@
 import sqlite3
 from flask import g
 import os
-from simple_models import Store, Location
+from models import Store, Location
 
 
 class DatabaseAccessor:
