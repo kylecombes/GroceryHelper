@@ -6,6 +6,7 @@ from flask import Flask
 from flask import render_template
 from flask import request
 
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -51,18 +52,46 @@ def input():
           error = None
           return render_template('index.html')
 
-# @app.route('/food', methods=['GET','POST'])
-# def getting_food():
-#   error = None
-#   if request.method == 'POST':
-#       if request.form['ingredients'] and request.form['']:
-#           error = None
-#           return render_template('food_input.html')
-#       else:
-#           error = None
-#           return render_template('food_input.html')
 
-    #the code below is executed if the request method
-    #was GET or the credentials were invalid
+@app.route('/food', methods=['GET','POST'])
+def getting_food():
+  error = None
+  if request.method == 'POST':
+      if request.form['type'] and request.form['housenum'] and request.form['street'] and request.form['city'] and request.form['state'] and request.form['zip']:
+          error = None
+          #after importing
+
+          #convert zip to integer
+          #loc = Location('street'....)#check order in top level of models.py
+          #send loc data to find_routes_given_ingredients in main
+
+          #result of sending data is an object I can call get_stops_as list on
+
+          #call method get_stops as list it will return a list of trip stops
+          #in tripstop class you can get a list of trip stops
+          #
+
+          #import find routes to user location and pass in the loc and list of ingredients
+
+          return render_template('confirm.html')
+      else:
+          error = None
+          return render_template('food_input.html')
+
+@app.route('/address', methods=['GET','POST'])
+def getting_address():
+  error = None
+  if request.method == 'POST':
+      if request.form['housenum'] and request.form['street'] and request.form['city'] and request.form['state'] and request.form['zip']:
+          error = None
+          #now that all of the inputs from the user are accounted for call the code function
+          return render_template('confirm.html')
+      else:
+          error = None
+          return render_template('address_input.html')
+
+#
+#     the code below is executed if the request method
+#     was GET or the credentials were invalid
 if __name__ == '__main__':
     app.run()
