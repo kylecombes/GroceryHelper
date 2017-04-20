@@ -38,6 +38,7 @@ class Store:
     store_id = None
     name = None
     location = None
+    items = None
 
     def __init__(self, store_id, name, location):
         self.store_id = store_id

@@ -1,5 +1,10 @@
 from geolocation import Geolocation
 from database import StoreInfoAccessor
+from models import Location, Store
+from planning import TripPlan, TripStop
+from flask import Flask, current_app
+
+app = Flask(__name__)
 
 
 def find_routes_given_ingredients(user_location, ingredients):
@@ -9,8 +14,14 @@ def find_routes_given_ingredients(user_location, ingredients):
         :param ingredients: the ingredients the user needs - list
         :return a list of routes, sorted best to worst
     """
-# TODO Fill this out
-pass
+    # TODO Make this actually do something dynamic
+    stores = get_stores_near_me(user_location, 100, 10)
+    plan = TripPlan()
+    for store in stores:
+        store.items = ingredients
+        stop = TripStop(plan.last_stop, store, store.location, 13, 0.452)
+        plan.add_stop(stop)
+    return plan
 
 
 def get_stores_near_me(my_loc, radius, number):
@@ -33,3 +44,8 @@ def get_stores_near_me(my_loc, radius, number):
 
     # Return the top _number_ of stores
     return stores_in_range[:number]
+
+if __name__ == '__main__':
+    with app.app_context():
+        loc = Location('1000 Olin Way', 'Needham', 'MA', 2492)
+        find_routes_given_ingredients(loc, ['A', 'B'])
