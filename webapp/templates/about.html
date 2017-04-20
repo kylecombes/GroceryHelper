@@ -3,15 +3,27 @@
     <head>
 
         <title>GroceryHelper</title>
-        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 
     </head>
 <body>
     <h1>GroceryHelper</h1>
-    <img src="cow.jpg" width="104" height="142"> 
+    <img src="{{ url_for('static', filename='cow.jpg') }}" width="104" height="142">
+    <div class = "headerbar" id = "headerbar">
+    <nav>
+      <div>
+      <ul>
+        <li><a href="http://127.0.0.1:5000/app">Get started!</a></li>
+        <li><a href="http://127.0.0.1:5000/about_team">Learn more</a></li>
+      </ul>
+    </div>
+    </nav>
+  </div>
+  <div>
     <p> What is GroceryHelper?</p>
 
-    <p>Grocery shopping is often time consuming and frusterating due to the time it
+    <p>Hi Sam
+      Grocery shopping is often time consuming and frustrating due to the time it
       can take to locate ingredients at your local stores. We hope to aleviate this
       struggle by locating the ingredients you need at your local stores and planning
       your trip so feeding your family can be fun!</p>
@@ -20,11 +32,6 @@
 
       <p>you do the things</p>
 
-<nav>
-  <ul>
-    <li><a href="http://127.0.0.1:5000/app">Get started!</a></li>
-    <li><a href="http://127.0.0.1:5000/about_team">Learn more</a></li>
-  </ul>
-</nav>
+</div>
 </body>
   </html>
