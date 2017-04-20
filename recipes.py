@@ -18,6 +18,11 @@ Encodes URL using user input for use with Yummly API.
 """
 
 def encodeURL_Yummly(search, allowed_ingredients, allowed_cuisines):
+    ALL_CUISINES = ['american', 'italian', 'asian', 'mexican', 'southern & soul food', ...
+        'french', 'southwestern', 'barbecue', 'indian', 'chinese', 'cajun & creole', ...
+        'english', 'mediterranean', 'greek', 'spanish', 'german', 'thai', 'moroccan', 'irish', ...
+        'japanese', 'cuban', 'hawaiin', 'swedish', 'hungarian', 'portugese']
+
     f = open('keys.py')
     getKeys= f.read()
     index = getKeys.find('YUMMLY_API_KEY = ')
@@ -33,9 +38,10 @@ def encodeURL_Yummly(search, allowed_ingredients, allowed_cuisines):
         ingred += "&allowedIngredient[]=" + ing
 
     for cuis in allowed_cuisines:
-        cuis = cuis.replace(" ", "+")
-        cuis = cuis.lower()
-        cuisines += "&allowedCuisine[]=cuisine^cuisine-" + cuis
+        if cuis.lower in ALL_CUISINES:
+            cuis = cuis.replace(" ", "+")
+            cuis = cuis.lower()
+            cuisines += "&allowedCuisine[]=cuisine^cuisine-" + cuis
 
     url = BASE_URL + "q=" + search + ingred + cuisines
     return url

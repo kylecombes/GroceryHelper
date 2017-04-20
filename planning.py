@@ -120,6 +120,15 @@ class TripPlan:
             self.last_stop = new_stop
         self.score += new_stop.score
 
+    def get_stops_as_list(self):
+        """ Returns a list of the stops. """
+        stop = self.first_stop
+        res = [stop]
+        while stop.next_stop:
+            stop = stop.next_stop
+            res.append(stop)
+        return res
+
     @staticmethod
     def combine(first_plan, second_plan):
         """ Combines the two TripPlans into one. """

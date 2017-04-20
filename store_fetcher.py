@@ -38,8 +38,15 @@ class StoreFetcher(SupermarketAPIBase):
                 zip_str = elem.Zip.cdata.strip()[:5]
                 zipcode = int(zip_str) if len(zip_str) > 0 else None
                 # phone = elem.Phone.cdata.strip()
-                loc = Location(street_address=address, city=city, state=state, zipcode=zipcode)
-                store = Store(store_id=store_id, name=name, location=loc)
+                loc = Location()
+                loc.street_address = address
+                loc.city = city
+                loc.state = state
+                loc.zipcode = zipcode
+                store = Store()
+                store.store_id = store_id
+                store.name = name
+                store.location = loc
                 stores.append(store)
         except IndexError:
             pass
