@@ -65,4 +65,4 @@ def input():
     #the code below is executed if the request method
     #was GET or the credentials were invalid
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
