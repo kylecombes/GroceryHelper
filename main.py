@@ -1,11 +1,10 @@
 from geolocation import Geolocation
 from database import StoreInfoAccessor
-from models import Location, Store
+from models import Location
 from planning import TripPlan, TripStop
-from flask import Flask, current_app
+from flask import Flask
 
 app = Flask(__name__)
-
 
 def find_routes_given_ingredients(user_location, ingredients):
     """ Finds the best driving routes for the user to purchase
@@ -33,7 +32,13 @@ def get_stores_near_me(my_loc, radius, number):
         :param radius: search radius (miles)
         :param number: maximum number of stores to return
     """
-    stores = StoreInfoAccessor().get_all_stores()
+    sia = StoreInfoAccessor()
+    try:
+        stores = sia.get_stores_in_zip_range(my_loc.zipcode-200, my_loc.zipcode+200)
+    finally:
+        # Close the database
+        sia.close()
+
     stores_in_range = []
     euc_dists = {}
     for s in stores:
