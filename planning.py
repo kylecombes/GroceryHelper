@@ -168,6 +168,6 @@ class TripStop:
         self.next_stop = None
 
     def __str__(self):
-        '{store} at {location} has a score of {score} and is '\
-        '{dist} miles from the last stop.' \
-        .__format__(store=self.store, location=self.location, score=self.score, dist=self.dist_from_prev)
+        return '{store} at {location} has a score of {score} and is {dist} miles from the last stop.'.format(store=self.store.name, location=self.location, score=self.score, dist=self.dist_from_prev)
+
+

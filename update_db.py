@@ -7,10 +7,15 @@
 from store_fetcher import StoreFetcher
 from keys import *
 from stores_ds import StoresDS
+from database import StoreInfoAccessor, LocationInfoAccessor, DatabaseCreator
 import math
 import threading
 import time
 import argparse
+import os
+from flask import Flask
+
+app = Flask(__name__)
 
 LOWEST_ZIP = 501
 HIGHEST_ZIP = 99950
@@ -20,54 +25,63 @@ DEFAULT_WORKERS = 50
 class StoreDbUpdater:
 
     def __init__(self, start_zip, end_zip, worker_count):
-        start_time = time.time()
 
-        # Break up ZIP codes
-        zip_range = end_zip - start_zip + 1
-        zips_per_worker = math.ceil(zip_range / worker_count)
+        with app.app_context():
+            # Create a database if one does not already exist
+            if not os.path.exists(StoreInfoAccessor.DATABASE_PATH):
+                dc = DatabaseCreator()
+                dc.init_db()
 
-        # Initialize API interface and data structure to store results in
-        sf = StoreFetcher(SUPERMARKET_API_KEY)
-        sd = StoresDS()
+            start_time = time.time()
 
-        # Start threads to parallelize downloads
-        for i in range(worker_count):
-            # Determine range
-            w_start = start_zip + i*zips_per_worker
-            w_end = w_start + zips_per_worker
-            if w_end > end_zip:
-                w_end = end_zip
-            # Create thread
-            t_name = 'Thread {0: >2} (ZIPs {1:05}-{2:05})'.format(i, w_start, w_end)
-            t = threading.Thread(target=self.__download_stores_in_range, name=t_name, args=(w_start, w_end, sf, sd))
-            t.start()
+            # Break up ZIP codes
+            zip_range = end_zip - start_zip + 1
+            zips_per_worker = math.ceil(zip_range / worker_count)
 
-        # Wait till all threads finish before continuing
-        main_thread = threading.current_thread()
-        for t in threading.enumerate():
-            if t is not main_thread:
-                t.join()
+            # Initialize API interface and data structure to store results in
+            sf = StoreFetcher(SUPERMARKET_API_KEY)
+            sd = StoresDS()
 
-        # Calculate how long it took to download (in seconds)
-        dl_duration = time.time() - start_time
-        # Print out results
-        print("Downloaded data for {0} stores in {1:0.3f}s".format(len(sd.stores_dict), dl_duration))
-        print("Average speed (using {0} threads): {1:0.3f} ms/request".format(worker_count, dl_duration/(end_zip-start_zip)/1000))
+            # Start threads to parallelize downloads
+            for i in range(worker_count):
+                # Determine range
+                w_start = start_zip + i*zips_per_worker
+                w_end = w_start + zips_per_worker
+                if w_end > end_zip:
+                    w_end = end_zip
+                # Create thread
+                t_name = 'Thread {0: >2} (ZIPs {1:05}-{2:05})'.format(i, w_start, w_end)
+                t = threading.Thread(target=self.__download_stores_in_range, name=t_name, args=(w_start, w_end, sf, sd))
+                t.start()
 
-        # Save the data
-        print('Saving data...')
-        start_time = time.time()
+            # Wait till all threads finish before continuing
+            main_thread = threading.current_thread()
+            for t in threading.enumerate():
+                if t is not main_thread:
+                    t.join()
 
-        for store in sd.stores_dict.values():
-            # print(store)
-            store.location.save()
-            store.location_id = store.location.id
-            store.save()
+            # Calculate how long it took to download (in seconds)
+            dl_duration = time.time() - start_time
+            # Print out results
+            print("Downloaded data for {0} stores in {1:0.3f}s".format(len(sd.stores_dict), dl_duration))
+            print("Average speed (using {0} threads): {1:0.3f} ms/request".format(worker_count, dl_duration/(end_zip-start_zip)/1000))
 
-        # Calculate how long it took to run (in seconds)
-        save_duration = time.time() - start_time
-        # Print out results
-        print("Saved in {0:0.3f}s".format(save_duration))
+            # Save the data
+            print('Saving data...')
+            start_time = time.time()
+
+            sia = StoreInfoAccessor()
+            lia = LocationInfoAccessor(sia.db)
+            for store in sd.stores_dict.values():
+                # print(store)
+                lia.save_location(store.location)
+                store.location_id = store.location.id
+                sia.save_store(store)
+
+            # Calculate how long it took to run (in seconds)
+            save_duration = time.time() - start_time
+            # Print out results
+            print("Saved in {0:0.3f}s".format(save_duration))
 
     @staticmethod
     def __download_stores_in_range(start_zip, end_zip, fetcher, store_ds):
