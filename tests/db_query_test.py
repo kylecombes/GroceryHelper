@@ -6,11 +6,11 @@ app = Flask(__name__)
 
 with app.app_context():
     sia = StoreInfoAccessor()
+    my_zip = 2492
     try:
-        loc = Location('1000 Olin Way', 'Needham', 'MA', 2492)
+        loc = Location('1000 Olin Way', 'Needham', 'MA', my_zip)
         store = Store('afefesds', 'Marshalls', loc)
-        sia.save_store(store, LocationInfoAccessor())
-        stores = sia.get_all_stores()
+        stores = sia.get_stores_in_zip_range(my_zip-200, my_zip+200)
         for store in stores:
             print(store)
     finally:

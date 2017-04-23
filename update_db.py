@@ -77,6 +77,11 @@ class StoreDbUpdater:
                 lia.save_location(store.location)
                 store.location_id = store.location.id
                 sia.save_store(store)
+                # Update the store ID reference
+                # print('Store ID: {}'.format(store.location.store_id))
+
+                store.location.store_id = store.id
+                lia.save_location(store.location)
 
             # Calculate how long it took to run (in seconds)
             save_duration = time.time() - start_time
@@ -96,7 +101,7 @@ class StoreDbUpdater:
         for zipcode in range(start_zip, end_zip):
             new_stores = fetcher.fetch_all_stores_in_zip(zipcode)
             store_ds.add_stores(new_stores)
-            print('{0} added {1} stores for ZIP code {2:05}'.format(thread_name, len(new_stores), zipcode))
+            print('{0} fetched {1} stores for ZIP code {2:05}'.format(thread_name, len(new_stores), zipcode))
 
         # print('Fetched data for {0:01d} stores'.format(len(sd.stores_dict)))
 

@@ -45,27 +45,32 @@ class DatabaseAccessor:
         cols = list(data.keys())
         vals = list(data.values())
         cols_clean = list()
-        vals_sql = ''
+        vals_clean = list()
         for i in range(len(cols)):
             val = vals[i]
             if val is not None:
                 cols_clean.append(str(cols[i]))
                 if isinstance(val, int):
-                    vals_sql += '{},'.format(val)
+                    vals_clean.append(str(val))
                 elif isinstance(val, str):
-                    vals_sql += '"{}",'.format(val)
+                    vals_clean.append('"{}"'.format(val))
                 else:
                     raise TypeError('Expected str or int, got {}.'.format(type(val)))
         # Create the SQL and execute it
-        cols_sql = ','.join(cols_clean)
         cursor = self.db.cursor()
         if id:
-            sql = "UPDATE {tn} SET ({cn})=({vals}) WHERE id=({id})". \
-                format(tn=table_name, cn=cols_sql, vals=vals_sql[:-1], id=id)
+            sql_set = list()
+            for i in range(len(cols_clean)):
+                sql_set.append('{}={}'.format(cols_clean[i], vals_clean[i]))
+            sql = "UPDATE {tn} SET {set} WHERE id={id}". \
+                format(tn=table_name, set=','.join(sql_set), id=id)
             cursor.execute(sql, ())
+            row_id = None
         else:
+            cols_sql = ','.join(cols_clean)
+            vals_sql = ','.join(vals_clean)
             sql = "INSERT INTO {tn} ({cn}) VALUES ({vals})". \
-                format(tn=table_name, cn=cols_sql, vals=vals_sql[:-1])
+                format(tn=table_name, cn=cols_sql, vals=vals_sql)
             row_id = cursor.execute(sql, ()).lastrowid
 
         self.db.commit()
@@ -168,10 +173,10 @@ class StoreInfoAccessor(DatabaseAccessor):
         """ Internal method for parsing the results of a database query and saving it into a Store object """
         loc = self.loc_info_accessor.get_location(row['location_id'])
         store = Store(
-            row['id'],
             row['store_id'],
             row['name'],
-            loc
+            loc,
+            row['id']
         )
         return store
 
@@ -212,7 +217,7 @@ class LocationInfoAccessor(DatabaseAccessor):
         :return: a list of Location objects in the given ZIP range - [Location]
         """
         sql = 'SELECT * FROM {} WHERE zipcode>={} AND zipcode<={}'.format(Location.DB_TABLE_NAME, start_zip, end_zip)
-        query_res = self._query_db(sql, (), True)
+        query_res = self._query_db(sql, ())
         res = list()
         for row in query_res:
             res.append(self.__parse_location(row))
@@ -231,18 +236,20 @@ class LocationInfoAccessor(DatabaseAccessor):
     def __parse_location(row):
         """ Internal method for parsing the results of a database query and saving it into a Location object """
         loc = Location(
-            row['id'],
             row['street_address'],
             row['city'],
             row['state'],
             row['zipcode'],
             row['latitude'],
-            row['longitude']
+            row['longitude'],
+            row['id'],
+            row['store_id']
         )
         return loc
 
     def save_location(self, location):
         data = {
+            'store_id': location.store_id,
             'street_address': location.street_address,
             'city': location.city,
             'state': location.state,
