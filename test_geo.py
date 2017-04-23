@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
 from main import Main
-from models import *
+from django_models import *
 from planning import TripPlanner
 
 

@@ -12,6 +12,7 @@ from keys import *
 class Geolocation:
 
     GMAPS_BASE_URL = "https://maps.googleapis.com/maps/api/geocode/json?"
+    GMAPS_DIRECTIONS_URL = "https://maps.googleapis.com/maps/api/directions/json?"
     MILES_PER_DEGREE_LAT_LONG = 69
 
     @staticmethod
@@ -67,20 +68,21 @@ class Geolocation:
 
     # TODO Get this working
     @staticmethod
-    def get_travel_distance(loc1, loc2):
+    def get_travel_distance(origin, destination):
         """ Gets the driving distance between two locations.
-            :param loc1 the first location - Location
-            :param loc2 the second location - Location
+            :param origin the first location - Location
+            :param destination the second location - Location
             :return the number of miles that must be traveled to go from loc1 to loc2
         """
-        origin = get_addr(get_lat_lon(origins))
-        #will return
-        destination = get_addr(get_lat_lon(destinations))
+        return -1
+        origin = get_addr(get_lat_lon(origin))
+        destination = get_addr(get_lat_lon(destination))
         paramsurldist = GMAPS_BASE_URL_DIST + '?units=imperial' + 'origins=' + origin + 'destinations=' + destination + '&key=' + key_dist
         datadist = get_json(paramsurldist)
         pprint(datadist)
 
-    def get_directions():
+
+    def get_directions(origin, destination):
 
         pass
 
@@ -103,7 +105,8 @@ class Geolocation:
         #print('wooooooooooooooooooo')
         #something with getting the address is wierd
         addr = (dataaddr['formatted_address'])
-
         #print(addr)
         return addr
 
+
+# get_travel_distance('Fenway Park','1000 Olin Way, Needham, MA 02492')
