@@ -3,8 +3,8 @@
 import json
 import math
 from pprint import pprint
-#from urllib.parse import urlencode
-#from urllib.request import urlopen
+from urllib.parse import urlencode
+from urllib.request import urlopen
 
 from keys import *
 
@@ -74,6 +74,7 @@ class Geolocation:
             :param destination the second location - Location
             :return the number of miles that must be traveled to go from loc1 to loc2
         """
+        return -1
         origin = get_addr(get_lat_lon(origin))
         destination = get_addr(get_lat_lon(destination))
         paramsurldist = GMAPS_BASE_URL_DIST + '?units=imperial' + 'origins=' + origin + 'destinations=' + destination + '&key=' + key_dist
@@ -108,4 +109,4 @@ class Geolocation:
         return addr
 
 
-get_travel_distance('Fenway Park','1000 Olin Way, Needham, MA 02492')
+# get_travel_distance('Fenway Park','1000 Olin Way, Needham, MA 02492')

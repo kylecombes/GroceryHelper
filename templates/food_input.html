@@ -6,25 +6,30 @@
     </head>
 <body>
   <h2>What ingredients do you already have?</h2>
-  <form action="/input" method="post">
+  <form action="/food" method="post">
     Ingredients:<br>
     <input type = "text" name="ingredients"><br>
+
     <h2>What cuisine do you want?</h2>
-    <form action="/input" method="post">
+
     Cuisine:<br>
    <input type="text" name="type"><br>
+
    <h2>What is your address?</h2>
-   <form action="/input" method="post">
+
    House Number:<br>
   <input type="text" name="housenum"><br>
+
   Street:<br>
   <input type="text" name="street"><br>
   City:<br>
   <input type="text" name="city"><br>
+
   State:<br>
-  <input type="text" name="state"><br>
+  <input type="text" name="state" maxlength="2"><br>
+
   Zip Code:<br>
-  <input type="text" name="zip"><br>
+  <input type="number" name="zip" minlength="5" maxlength="5"><br>
   <input type="submit" value="Submit">
   </form>
 </body>
