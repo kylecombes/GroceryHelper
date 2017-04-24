@@ -68,7 +68,7 @@ def input():
 
 
 @app.route('/food', methods=['GET','POST'])
-def getting_food(location=None,stops=None,cuisine=None, ingredients=None):
+def getting_food(location=None,stops=None,cuisine=None, src=None):
   error = None
   if request.method == 'POST':
       if request.form['type'] and request.form['housenum'] and request.form['street'] and request.form['city'] and request.form['state'] and request.form['zip']:
@@ -100,15 +100,15 @@ def getting_food(location=None,stops=None,cuisine=None, ingredients=None):
               #plan = E
           plan = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
           loc = str(street_address + ' ' + city + ', ' + state)
-
-          return render_template('confirm2.html', location=loc, plan=plan,cuisine=cuisine, ingredients=ingredients)
+          src = Geolocation.get_directions(loc, ["1000 Olin Way"])
+          return render_template('confirm2.html', location=loc, plan=plan,cuisine=cuisine, src=src)
 
 
       else:
           return render_template('food_input.html')
 
 @app.route('/address', methods=['GET','POST'])
-def getting_address(location=None,plan=None):
+def getting_address(location=None,plan=None, src=None):
     error = None
     if request.method == 'POST':
         if request.form['ingredients'] and request.form['housenum'] and request.form['street'] and request.form['city'] and request.form['state'] and request.form['zip']:
@@ -125,19 +125,15 @@ def getting_address(location=None,plan=None):
 
             ##throwing an internal error when I try with random addresses. I think there are
             ##only specific ones I can use from a dataset...
-            loc = Location(street_address, city, state, zipcode)
-            results = find_routes_given_ingredients(loc, ingredients)
-            plan = get_stops_as_list(results)
-            # try:
-            #     plan = TripStop(None, 'safeway', 'Tacoma', '10 miles', '10')
-            #     print(plan)
-            #     loc = "testing displaying the user location"
-            # except Exception as E:
-            #     plan = E
-            #plan = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
-            #loc = str(street_address + ' ' + city + ', ' + state)
+            # loc = Location(street_address, city, state, zipcode)
+            # results = find_routes_given_ingredients(loc, ingredients)
+            # plan = get_stops_as_list(results)
 
-            return render_template('confirm.html', location=loc, plan=plan)
+            plan = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
+            loc = str(street_address + ' ' + city + ' ' + state)
+            src = Geolocation.get_directions(loc, ["Olin College"])
+
+            return render_template('confirm.html', location=loc, plan=plan, src=src)
 
             #convert zip to integer
             #loc = Location('street'....)#check order in top level of models.py

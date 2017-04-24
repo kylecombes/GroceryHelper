@@ -88,7 +88,7 @@ class Geolocation:
         for stop in stops:
             waypoints += stop.replace(' ','+') + '|'
         waypoints = waypoints[:-1]
-        url = 'https://www.google.com/maps/embed/v1/directions?key=' + MAPS_API_KEY + '&origin=' + origin + '&destination=' + origin + '&waypoints' + waypoints
+        url = 'https://www.google.com/maps/embed/v1/directions?key=' + MAPS_API_KEY + '&origin=' + origin + '&destination=' + origin + '&waypoints=' + waypoints
         return url
 
 

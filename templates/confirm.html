@@ -8,10 +8,12 @@
     </head>
     <body>
       <h1>Your Grocery Shopping Plan</h1>
-      <body>
         <p>From your location, {{location}}, travel to the following stores.</p>
         <p>{{plan}}</p>
-        <!--p>You will aquire the following ingredients: {{ingredients}}.</p-->
-        <!--p>{{check}}</p-->
+        <iframe src="{{src|safe}}" allowfullscreen
+          width="600"
+          height="450"
+          frameborder="0" style="border:0">
+        </iframe>
     </body>
 </html>
