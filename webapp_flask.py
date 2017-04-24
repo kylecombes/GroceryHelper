@@ -125,17 +125,17 @@ def getting_address(location=None,plan=None):
 
             ##throwing an internal error when I try with random addresses. I think there are
             ##only specific ones I can use from a dataset...
-            #loc = Location(street_address, city, state, zipcode)
-            #results = find_routes_given_ingredients(loc, ingredients)
-            #plan = get_stops_as_list(results)
+            loc = Location(street_address, city, state, zipcode)
+            results = find_routes_given_ingredients(loc, ingredients)
+            plan = get_stops_as_list(results)
             # try:
             #     plan = TripStop(None, 'safeway', 'Tacoma', '10 miles', '10')
             #     print(plan)
             #     loc = "testing displaying the user location"
             # except Exception as E:
             #     plan = E
-            plan = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
-            loc = str(street_address + ' ' + city + ', ' + state)
+            #plan = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
+            #loc = str(street_address + ' ' + city + ', ' + state)
 
             return render_template('confirm.html', location=loc, plan=plan)
 
