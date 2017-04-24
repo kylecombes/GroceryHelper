@@ -124,9 +124,12 @@ class TripPlan:
         """ Returns a list of the stops. """
         stop = self.first_stop
         res = [stop]
-        while stop.next_stop:
+        while True:
             stop = stop.next_stop
+            if not stop:
+                break
             res.append(stop)
+            print('hi')
         return res
 
     @staticmethod
@@ -167,7 +170,6 @@ class TripStop:
         self.score = score
         self.next_stop = None
 
+
     def __str__(self):
         return '{store} at {location} has a score of {score} and is {dist} miles from the last stop.'.format(store=self.store.name, location=self.location, score=self.score, dist=self.dist_from_prev)
-
-
