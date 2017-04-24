@@ -14,8 +14,11 @@ h1 {
   /*padding-left: 11em;*/
 
   font-family: Nunito;
-  color: darkred;
-   background-color: lightblue;
+  color: lightseagreen;
+   background-color: white;
+ }
+ p{
+   color: tomato;
  }
 /* Add a black background color to the top navigation */
 .topnav {
@@ -23,7 +26,7 @@ h1 {
     position: relative;
     left:10px;
     top:20px;
-    background-color: lightblue;
+    background-color: white;
     overflow: scroll;
 
 }
@@ -32,7 +35,7 @@ h1 {
 .topnav a {
     float: left;
     display: inline;
-    color: #333;
+    color: tomato;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -46,11 +49,11 @@ h1 {
 }
 /* Add a color to the active/current link */
 .topnav a.active {
-    background-color: lightblue;
+    background-color: white;
     color: white;
 }
 
-background-color: #333;
+background-color: white;
 +p {
 font-family: "Didact Gothic";
 font-size: 20px;

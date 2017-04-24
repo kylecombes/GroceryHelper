@@ -68,64 +68,76 @@ def input():
 
 
 @app.route('/food', methods=['GET','POST'])
-def getting_food(location=None,stops=None,cuisine=None):
+def getting_food(location=None,stops=None,cuisine=None, ingredients=None):
   error = None
   if request.method == 'POST':
       if request.form['type'] and request.form['housenum'] and request.form['street'] and request.form['city'] and request.form['state'] and request.form['zip']:
           error = None
 
-        #   zipcode = int(request.form['zip'])
-          cuisine = request.form['type']
-        #   street_address = request.form['housenum'] + ' ' + request.form['street']
-        #   city = request.form['city']
-        #   state = request.form['state']
-        #   ingredients = request.form['ingredients']
-          #
-          #
-        #   loc = Location(street_address, city, state, zipcode)
-        #   results = find_routes_given_ingredients(loc, ingredients)
-        #   trip_stops = get_stops_as_list(results)
-
-          trip_stops = "testing displaying the stops"
-          loc = "testing displaying the location"
-
-          #convert zip to integer
-          #loc = Location('street'....)#check order in top level of models.py
-          #send loc data to find_routes_given_ingredients in main
-          #result of sending data is an object I can call get_stops_as list on
-          #call method get_stops as list it will return a list of trip stops
-          #in tripstop class you can get a list of trip stops
-          #import find routes to user location and pass in the loc and list of ingredients
-
-          return render_template('confirm2.html', location=loc, stops=trip_stops, cuisine=cuisine)
-      else:
-          error = None
-          return render_template('food_input.html')
-
-@app.route('/address', methods=['GET','POST'])
-def getting_address(location=None,stops=None):
-  error = None
-  if request.method == 'POST':
-      if request.form['housenum'] and request.form['street'] and request.form['city'] and request.form['state'] and request.form['zip']:
-          error = None
-
           zipcode = int(request.form['zip'])
+          cuisine = str(request.form['type'])
           street_address = str(request.form['housenum'] + ' ' + request.form['street'])
           city = str(request.form['city'])
           state = str(request.form['state'])
-          ingredients = str(request.form['ingredients'])
-          type_check = type(zipcode)
+          # format ingredients
+          ingredients = request.form['ingredients']
+          ingredients = ingredients.split(" ")
+          ingredients = ", ".join(ingredients) #for word in ingredients])
+          print(ingredients)
+          type_check = type(ingredients)
+          print(type_check)
+        #   loc = Location(street_address, city, state, zipcode)
+        #   results = find_routes_given_ingredients(loc, ingredients)
+        #   plan = get_stops_as_list(results)
 
-          ##throwing an internal error when I try with random addresses. I think there are
-          ##only specific ones I can use from a dataset...
-          loc = Location(street_address, city, state, zipcode)
-          results = find_routes_given_ingredients(loc, ingredients)
-          trip_stops = get_stops_as_list(results)
 
-        #   trip_stops = "testing displaying the plan"
-        #   loc = "testing displaying the user location"
+          #try:
+        #   for stop in Tripstop:
+        #       plan = TripStop(None, 'safeway', 'Tacoma', '10 miles', '10')
+        #       print(plan)
 
-          return render_template('confirm.html', location=loc, stops=trip_stops)
+          #except Exception as E:
+              #plan = E
+          plan = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
+          loc = str(street_address + ' ' + city + ', ' + state)
+
+          return render_template('confirm2.html', location=loc, plan=plan,cuisine=cuisine, ingredients=ingredients)
+
+
+      else:
+          return render_template('food_input.html')
+
+@app.route('/address', methods=['GET','POST'])
+def getting_address(location=None,plan=None):
+    error = None
+    if request.method == 'POST':
+        if request.form['ingredients'] and request.form['housenum'] and request.form['street'] and request.form['city'] and request.form['state'] and request.form['zip']:
+            error = None
+
+            zipcode = int(request.form['zip'])
+            street_address = str(request.form['housenum'] + ' ' + request.form['street'])
+            city = str(request.form['city'])
+            state = str(request.form['state'])
+
+            ingredients = str(request.form['ingredients'])
+            ingredients = ingredients.split(" ")
+            ingredients = ", ".join(ingredients) #for word in ingredients])
+
+            ##throwing an internal error when I try with random addresses. I think there are
+            ##only specific ones I can use from a dataset...
+            #loc = Location(street_address, city, state, zipcode)
+            #results = find_routes_given_ingredients(loc, ingredients)
+            #plan = get_stops_as_list(results)
+            # try:
+            #     plan = TripStop(None, 'safeway', 'Tacoma', '10 miles', '10')
+            #     print(plan)
+            #     loc = "testing displaying the user location"
+            # except Exception as E:
+            #     plan = E
+            plan = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
+            loc = str(street_address + ' ' + city + ', ' + state)
+
+            return render_template('confirm.html', location=loc, plan=plan)
 
             #convert zip to integer
             #loc = Location('street'....)#check order in top level of models.py
@@ -136,7 +148,7 @@ def getting_address(location=None,stops=None):
             #import find routes to user location and pass in the loc and list of ingredients
             #now that all of the inputs from the user are accounted for call the code function
 
-      else:
+        else:
           error = None
           return render_template('address_input.html')
 

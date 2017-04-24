@@ -7,4 +7,3 @@ with app.app_context():
     stores = get_stores_near_me(user_loc, 100, 20)
     for store in stores:
         print(store)
-
