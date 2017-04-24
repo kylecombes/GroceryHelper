@@ -81,10 +81,15 @@ class Geolocation:
         datadist = get_json(paramsurldist)
         pprint(datadist)
 
-
-    def get_directions(origin, destination):
-
-        pass
+    @staticmethod
+    def get_directions(origin, stops):
+        origin = origin.replace(' ','+')
+        waypoints = ''
+        for stop in stops:
+            waypoints += stop.replace(' ','+') + '|'
+        waypoints = waypoints[:-1]
+        url = 'https://www.google.com/maps/embed/v1/directions?key=' + MAPS_API_KEY + '&origin=' + origin + '&destination=' + origin + '&waypoints=' + waypoints
+        return url
 
 
     @staticmethod
@@ -109,4 +114,4 @@ class Geolocation:
         return addr
 
 
-# get_travel_distance('Fenway Park','1000 Olin Way, Needham, MA 02492')
+print(Geolocation.get_directions('Fenway Park',['1000 Olin Way, Needham, MA 02492','Faneuil Hall', 'Another Place', 'and Another']))

@@ -19,6 +19,8 @@ def find_routes_given_ingredients(user_location, ingredients):
     for store in stores:
         store.items = ingredients
         stop = TripStop(plan.last_stop, store, store.location, 13, 0.452)
+        if plan.last_stop:
+            plan.last_stop.next_stop = stop
         plan.add_stop(stop)
     stops = plan.get_stops_as_list()
     for stop in stops:
