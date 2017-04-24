@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Nunito" />
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Didact+Gothic" />
     <head>
         <meta charset="utf-8">
         <title>
@@ -7,10 +10,27 @@
         </title>
     </head>
     <body>
+      <div>
+         <h1>GroceryHelper</h1>
+
+        <div class = "topnav" id = "myTopnav">
+
+          <!--<ul>
+             <li><a href="http://127.0.0.1:5000/app">Get started!</a></li>
+             <li><a href="http://127.0.0.1:5000/about_team">Learn more</a></li>
+          </ul> -->
+          <a href="http://127.0.0.1:5000/">Home</a>
+          <a href="http://127.0.0.1:5000/app">Get started!</a>
+          <a href="http://127.0.0.1:5000/about_team">Learn more</a><
+       </div>
+
+    </div>
+    <div id = "content">
       <h1>The shit works</h1>
-      <body>
+
         <p>{{cuisine}}
         <p>{{location}}</p>
         <p>{{stops}}</p>
+      </div>
     </body>
 </html>

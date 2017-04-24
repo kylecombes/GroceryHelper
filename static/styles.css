@@ -60,6 +60,18 @@ font-weight: 400;
 line-height: 20px;
  }
 
+#content{
+  margin: auto;
+    width: 80%;
+}
+#center{
+  text-align: center;
+}
+#bessie{
+  display: block;
+    margin: auto;
+    width: 90%;
+}
 
 /*
  div {
