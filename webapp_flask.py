@@ -84,12 +84,14 @@ def getting_food(location=None,stops=None,cuisine=None, src=None):
           ingredients = ingredients.split(" ")
           ingredients = ", ".join(ingredients) #for word in ingredients])
           print(ingredients)
-          type_check = type(ingredients)
-          print(type_check)
-        #   loc = Location(street_address, city, state, zipcode)
-        #   results = find_routes_given_ingredients(loc, ingredients)
-        #   plan = get_stops_as_list(results)
+        #   type_check = type(ingredients)
+        #   print(type_check)
 
+
+          loc = Location(street_address, city, state, zipcode)
+          print(loc)
+          results = find_routes_given_ingredients(loc, ingredients)
+          plan = get_stops_as_list(results)
 
           #try:
         #   for stop in Tripstop:
@@ -98,9 +100,10 @@ def getting_food(location=None,stops=None,cuisine=None, src=None):
 
           #except Exception as E:
               #plan = E
-          plan = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
-          loc = str(street_address + ' ' + city + ', ' + state)
-          src = Geolocation.get_directions(loc, ["1000 Olin Way"])
+        #   plan = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
+        #   loc = str(street_address + ' ' + city + ', ' + state)
+
+          src = Geolocation.get_directions(loc, ["1000 Olin Way", "Boston College"])
           return render_template('confirm2.html', location=loc, plan=plan,cuisine=cuisine, src=src)
 
 
@@ -121,28 +124,18 @@ def getting_address(location=None,plan=None, src=None):
 
             ingredients = str(request.form['ingredients'])
             ingredients = ingredients.split(" ")
-            ingredients = ", ".join(ingredients) #for word in ingredients])
+            ingredients = ", ".join(ingredients)
 
-            ##throwing an internal error when I try with random addresses. I think there are
-            ##only specific ones I can use from a dataset...
-            # loc = Location(street_address, city, state, zipcode)
-            # results = find_routes_given_ingredients(loc, ingredients)
-            # plan = get_stops_as_list(results)
+            loc = Location(street_address, city, state, zipcode)
+            results = find_routes_given_ingredients(loc, ingredients)
+            plan = get_stops_as_list(results)
 
-            plan = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
-            loc = str(street_address + ' ' + city + ' ' + state)
-            src = Geolocation.get_directions(loc, ["Olin College"])
+            # plan = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
+            # loc = str(street_address + ' ' + city + ' ' + state)
+            
+            src = Geolocation.get_directions(loc, plan)
 
             return render_template('confirm.html', location=loc, plan=plan, src=src)
-
-            #convert zip to integer
-            #loc = Location('street'....)#check order in top level of models.py
-            #send loc data to find_routes_given_ingredients in main
-            #result of sending data is an object I can call get_stops_as list on
-            #call method get_stops as list it will return a list of trip stops
-            #in tripstop class you can get a list of trip stops
-            #import find routes to user location and pass in the loc and list of ingredients
-            #now that all of the inputs from the user are accounted for call the code function
 
         else:
           error = None
