@@ -55,7 +55,7 @@ class Store:
 
 
     def __str__(self):
-        return '(ID: {0}) {1} at {2}'.format(self.store_id, self.name, self.location)
+        return self.name #'(ID: {0}) {1} at {2}'.format(self.store_id, self.name, self.location)
 
 
 class FoodItem:

@@ -1,5 +1,6 @@
 # Don't include our keys or databases
 /keys.py
+*.sqlite
 *.sqlite3
 migrations/
 
