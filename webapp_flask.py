@@ -86,8 +86,6 @@ def getting_food(location=None,stops=None,cuisine=None, src=None):
           print(ingredients)
         #   type_check = type(ingredients)
         #   print(type_check)
-
-
           loc = Location(street_address, city, state, zipcode)
           print(loc)
           results = find_routes_given_ingredients(loc, ingredients)
@@ -132,7 +130,7 @@ def getting_address(location=None,plan=None, src=None):
 
             # plan = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
             # loc = str(street_address + ' ' + city + ' ' + state)
-            
+
             src = Geolocation.get_directions(loc, plan)
 
             return render_template('confirm.html', location=loc, plan=plan, src=src)
