@@ -19,7 +19,7 @@ app = Flask(__name__)
 
 LOWEST_ZIP = 501
 HIGHEST_ZIP = 99950
-DEFAULT_WORKERS = 50
+DEFAULT_WORKERS = 100
 
 
 class StoreDbUpdater:
@@ -114,7 +114,7 @@ if __name__ == '__main__':
         '--start-zip',
         action='store',
         dest='start_zip',
-        default=LOWEST_ZIP,
+        default=2000,
         type=int,
     )
     parser.add_argument(
@@ -122,7 +122,7 @@ if __name__ == '__main__':
         '--end-zip',
         action='store',
         dest='end_zip',
-        default=HIGHEST_ZIP,
+        default=3000,
         type=int,
     )
     parser.add_argument(
