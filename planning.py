@@ -125,13 +125,10 @@ class TripPlan:
     def get_stops_as_list(self):
         """ Returns a list of the stops. """
         stop = self.first_stop
-        res = [stop]
-        while True:
-            stop = stop.next_stop
-            if not stop:
-                break
+        res = list()
+        while stop:
             res.append(stop)
-            print('hi')
+            stop = stop.next_stop
         return res
 
     @staticmethod

@@ -83,12 +83,16 @@ class Geolocation:
 
     @staticmethod
     def get_directions(origin, stops):
-        origin = origin.replace(' ','+')
+        origin_str = '{street},{city},{state} {zip}'\
+            .format(street=origin.street_address, city=origin.city, state=origin.state, zip=origin.zipcode)
         waypoints = ''
         for stop in stops:
-            waypoints += stop.replace(' ','+') + '|'
+            street = stop.location.street_address.replace(' ','+')
+            city = stop.location.city.replace(' ','+')
+            waypoints += '{street},{city},{state}+{zip}|'\
+                .format(street=street, city=city, state=stop.location.state, zip=stop.location.zipcode)
         waypoints = waypoints[:-1]
-        url = 'https://www.google.com/maps/embed/v1/directions?key=' + MAPS_API_KEY + '&origin=' + origin + '&destination=' + origin + '&waypoints=' + waypoints
+        url = 'https://www.google.com/maps/embed/v1/directions?key=' + MAPS_API_KEY + '&origin=' + origin_str + '&destination=' + origin_str + '&waypoints=' + waypoints
         return url
 
 
@@ -114,4 +118,4 @@ class Geolocation:
         return addr
 
 
-print(Geolocation.get_directions('Fenway Park',['1000 Olin Way, Needham, MA 02492','Faneuil Hall', 'Another Place', 'and Another']))
+# print(Geolocation.get_directions('Fenway Park',['1000 Olin Way, Needham, MA 02492','Faneuil Hall', 'Another Place', 'and Another']))

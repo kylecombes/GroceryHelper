@@ -88,8 +88,8 @@ def getting_food(location=None,stops=None,cuisine=None, src=None):
         #   print(type_check)
           loc = Location(street_address, city, state, zipcode)
           print(loc)
-          results = find_routes_given_ingredients(loc, ingredients)
-          plan = get_stops_as_list(results)
+          routes = find_routes_given_ingredients(loc, ingredients)
+          plan = routes.get_stops_as_list()
 
           #try:
         #   for stop in Tripstop:
@@ -109,7 +109,7 @@ def getting_food(location=None,stops=None,cuisine=None, src=None):
           return render_template('food_input.html')
 
 @app.route('/address', methods=['GET','POST'])
-def getting_address(location=None,plan=None, src=None):
+def getting_address(location=None, stops=None, src=None):
     error = None
     if request.method == 'POST':
         if request.form['ingredients'] and request.form['housenum'] and request.form['street'] and request.form['city'] and request.form['state'] and request.form['zip']:
@@ -126,14 +126,15 @@ def getting_address(location=None,plan=None, src=None):
 
             loc = Location(street_address, city, state, zipcode)
             results = find_routes_given_ingredients(loc, ingredients)
-            plan = get_stops_as_list(results)
+            stops = results.get_stops_as_list()
 
-            # plan = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
+            # stops = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
             # loc = str(street_address + ' ' + city + ' ' + state)
 
             src = Geolocation.get_directions(loc, plan)
+        
 
-            return render_template('confirm.html', location=loc, plan=plan, src=src)
+            return render_template('confirm.html', location=loc, plan=stops, src=src)
 
         else:
           error = None
