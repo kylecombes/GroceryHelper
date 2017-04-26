@@ -22,7 +22,9 @@
           </ul> -->
           <a href="http://127.0.0.1:5000/">Home</a>
           <a href="http://127.0.0.1:5000/app">Get started!</a>
-          <a href="http://127.0.0.1:5000/about_team">Learn more</a>
+          <a href="http://127.0.0.1:5000/about_project">Learn more</a>
+          <a href="http://127.0.0.1:5000/about_us">Meet the team</a>
+
        </div>
 
     </div>
@@ -33,22 +35,19 @@
         <p>{{location}}</p>
         <p>{{stops}}</p>
       </div>
-=======
+
       <h1>Your Grocery Shopping Plan</h1>
       <body>
         <p>You wanted to have {{cuisine}} for dinner</p>
         <p>From your location, {{location}}, travel to the following stores.</p>
-        <p>{{plan}}</p>
-<<<<<<< HEAD
-        <iframe>
-          width="600"
-          height="450"
-          frameborder="0" style="border:0"
-          src="{{src|safe}}" allowfullscreen>
-        </iframe>
-=======
+        <p>{{stops}}</p>
+
+      <iframe src="{{src|safe}}" allowfullscreen
+        width="600"
+        height="450"
+        frameborder="0" style="border:0">
+      </iframe>
         <p>You will aquire the following ingredients: {{ingredients}}.</p>
->>>>>>> ab50236ec068da3325b578406ffa97e747cce75a
->>>>>>> 9e89c45aeb1515984d8bfb595adcb90224ad3d7e
+
     </body>
 </html>

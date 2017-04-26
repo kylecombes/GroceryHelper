@@ -21,22 +21,72 @@
       </ul> -->
       <a href="http://127.0.0.1:5000/">Home</a>
       <a href="http://127.0.0.1:5000/app">Get started!</a>
-      <a href="http://127.0.0.1:5000/about_team">Learn more</a>
+      <a href="http://127.0.0.1:5000/about_project">Learn more</a>
+      <a href="http://127.0.0.1:5000/about_us">Meet the team</a>
+
    </div>
 
 </div>
 <div id = "content">
+
     <h1>What are we all about?</h1>
     <p>Grocery shopping can often become a long and cumberson process. Often times one store will not have what you need
       which requires you to travel to multiple inorder to aquire all of the groceries that you need.
     <form action="/about_team" method="post">
+
+<form action="/about_project" method="post">
+    <h1>Learn More About the Project!</h1>
+    <p>Feel free to navigate through the page using the navigation bar at the top of the page to try our app
+      and learn more about the project and out team!</p>
+
+    <h2>Why Groceries?</h2>
+
+    <p>When brainstorming ideas for this project we all identified the challenge of
+      acquiring all of the ingredients we needed to prepare meals a real struggle.
+      As busy college students we wanted a way to quickly determine the best plan to
+      complete all of our grocery shopping and from that idea GroceryHelper was born.
+    </p>
+
+    <h2> Main Idea</h2>
+    <p>GroceryHelper is a tool to make grocery shopping quicker and easier. When ingredients
+      and an origin location are inputted, our GroceryHelper webapp will output a shopping plan
+      which includes: a list of stores to visit in sequential order, a map with directions to
+      each store and back to your origin, and a list of which ingredients to buy at each store.
+      The outputted path is the minimum distance the user has to travel in order to get all the
+      ingredients they need. The goal of GroceryHelper is to minimize time spent shopping and the
+      disappointment of caused by not finding the items that the shopper wants at the grocery store.
+      Additionally, If the shopper does not know what they want to eat they can input a cuisine and
+      some ingredients and GroceryHelper will output a recipe and a path plan to purchase the extra
+      ingredients needed.</p>
+
+
     <h2>Implementation information</h2>
-    <p>wooooooooooooooottttttt</p>
+
+    <p>The GroceryHelper path finding algorithm works by first filtering grocery stores by Euclidean
+      distance using lat/long from converting the users origin address. It then sorts the stores by
+      nearest to farthest Euclidian distance and tries every path, skipping stores that do not provide
+       any new needed items. Each calculated path is then scored based on percentage of items still needed
+       at that store and distance from last stop.</p>
+    <img src="{{ url_for('static', filename='Pres-AI-depiction-01.jpg') }}" id = "description" style="width:600px;height:400px;">
     <h2>Results</h2>
-    <p>tooooooootttttt</p>
+
+    <p>
+      You can explore the results of our project under the Get Started tab to try it out!
+    </p>
+
     <h2>Project evolution</h2>
+
     <p>helooooooooo</p>
+
     <h2>Attribution</h2>
-    <p>site the webapps</p>
+
+    <p>We used three API’s to create our app:
+      <ol>
+        <li>Supermarket API for product information at local stores</li>
+        <li>Yummly API for the recipe database</li>
+        <li>Google Maps for geocoding, driving directions, and live map</li>
+      </ol>
+
+    </p>
   </div>
 </html>
