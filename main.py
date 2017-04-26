@@ -22,10 +22,11 @@ def find_routes_given_ingredients(user_location, ingredients):
         if plan.last_stop:
             plan.last_stop.next_stop = stop
         plan.add_stop(stop)
-    stops = plan.get_stops_as_list()
+    stops = TripPlan.get_stops_as_list(plan)
+    stops_print = []
     for stop in stops:
-        print(stop)
-    return plan
+        stops_print.append(TripStop.get_string(stop))
+    return stops
 
 
 def get_stores_near_me(my_loc, radius, number):

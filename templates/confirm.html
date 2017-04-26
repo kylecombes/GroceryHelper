@@ -31,7 +31,13 @@
       <h1>Your Grocery Shopping Plan</h1>
 
         <p>From your location, {{location}}, travel to the following stores.</p>
-        <p>{{stops}}</p>
+        <!--p>{{stops}}</p-->
+
+        {% for stop in stops %}
+        <div class=flash>{{ stop }}</div>
+        {% endfor %}
+        {% block body %}{% endblock %}
+
         <iframe src="{{src|safe}}" allowfullscreen
           width="600"
           height="450"

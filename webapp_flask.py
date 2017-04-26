@@ -95,12 +95,16 @@ def getting_food(location=None,stops=None,cuisine=None, src=None):
 
           loc = Location(street_address, city, state, zipcode)
           #print(loc)
-          routes = find_routes_given_ingredients(loc, ingredients)
-          stops = routes.get_stops_as_list()
+          stops = find_routes_given_ingredients(loc, ingredients)
+          src = Geolocation.get_directions(loc, stops)
 
-          src = Geolocation.get_directions(loc, ["1000 Olin Way", "Boston College"])
-          return render_template('confirm2.html', location=loc, stops=stops,cuisine=cuisine, src=src)
+          stops_print = []
+          for stop in stops:
+              stops_print.append(TripStop.get_string(stop))
+              stops_print = stops_print.split(',')
+          print(stops_print)
 
+          return render_template('confirm2.html', location=loc, stops=stops_print,cuisine=cuisine, src=src)
 
       else:
           return render_template('food_input.html')
@@ -122,16 +126,25 @@ def getting_address(location=None, stops=None, src=None):
             ingredients = ", ".join(ingredients)
 
             loc = Location(street_address, city, state, zipcode)
-            results = find_routes_given_ingredients(loc, ingredients)
-            stops = results.get_stops_as_list()
-            print('wut')
-            print(stops)
+            stops = find_routes_given_ingredients(loc, ingredients)
+            #stops = results.get_stops_as_list()
+
+            # print('wut')
+            # for stop in stops:
+            #     stops = TripStop(results.last_stop, stop, stop.location, 13, 0.452)
+            #return stops
             # stops = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
             # loc = str(street_address + ' ' + city + ' ' + state)
 
             src = Geolocation.get_directions(loc, stops)
+            stops_print = []
+            for stop in stops:
+                stops_print.append(TripStop.get_string(stop))
+                stops_print = stops_print.split(',')
+            #print(stops_print)
 
-            return render_template('confirm.html', location=loc, stops=stops, src=src)
+
+            return render_template('confirm.html', location=loc, stops=stops_print, src=src)
 
         else:
           error = None
