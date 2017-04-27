@@ -13,6 +13,7 @@ class Geolocation:
 
     GMAPS_BASE_URL = "https://maps.googleapis.com/maps/api/geocode/json?"
     GMAPS_DIRECTIONS_URL = "https://maps.googleapis.com/maps/api/directions/json?"
+    GMAPS_DIST_BASE_URL = 'https://maps.googleapis.com/maps/api/distancematrix/json?'
     MILES_PER_DEGREE_LAT_LONG = 69
 
     @staticmethod
@@ -74,11 +75,8 @@ class Geolocation:
             :param destination the second location - Location
             :return the number of miles that must be traveled to go from loc1 to loc2
         """
-        return -1
-        origin = get_addr(get_lat_lon(origin))
-        destination = get_addr(get_lat_lon(destination))
-        paramsurldist = GMAPS_BASE_URL_DIST + '?units=imperial' + 'origins=' + origin + 'destinations=' + destination + '&key=' + key_dist
-        datadist = get_json(paramsurldist)
+        paramsurldist = Geolocation.GMAPS_DIST_BASE_URL + '?units=imperial' + 'origins=' + origin + 'destinations=' + destination + '&key=' + KEY_DIST
+        datadist = Geolocation.__get_json(paramsurldist)
         pprint(datadist)
 
     @staticmethod
@@ -87,14 +85,17 @@ class Geolocation:
             .format(street=origin.street_address, city=origin.city, state=origin.state, zip=origin.zipcode)
         waypoints = ''
         for stop in stops:
-            street = stop.location.street_address.replace(' ','+')
-            city = stop.location.city.replace(' ','+')
-            waypoints += '{street},{city},{state}+{zip}|'\
-                .format(street=street, city=city, state=stop.location.state, zip=stop.location.zipcode)
+            waypoints += Geolocation.format_location_for_google(stop.location) + '|'
         waypoints = waypoints[:-1]
         url = 'https://www.google.com/maps/embed/v1/directions?key=' + MAPS_API_KEY + '&origin=' + origin_str + '&destination=' + origin_str + '&waypoints=' + waypoints
         return url
 
+    @staticmethod
+    def format_location_for_google(location):
+        street = location.street_address.replace(' ','+')
+        city = location.city.replace(' ','+')
+        return '{street},{city},{state}+{zip}'\
+            .format(street=street, city=city, state=location.state, zip=location.zipcode)
 
     @staticmethod
     def get_addr(latitude, longitude):
