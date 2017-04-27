@@ -8,7 +8,6 @@ h1 {
   display: inline-block;
   font-family: Nunito;
 	font-size: 49px;
-	font-style: oblique;
 	font-variant: small-caps;
 	font-weight: bold;
 	line-height: 53.9px;
@@ -99,7 +98,7 @@ input[type=submit]{
 .stops-container {
     width: 50%;
     float: left;
-    padding-right:
+    padding-right: 1em;
 }
 
 .trip-stop{
