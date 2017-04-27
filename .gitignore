@@ -7,6 +7,11 @@ migrations/
 # Mac stuff
 .DS_Store
 
+# Videos and big stuff
+*.mp4
+*.mov
+*.zip
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
