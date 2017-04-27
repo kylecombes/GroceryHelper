@@ -1,5 +1,5 @@
 import copy
-from geolocation import Geolocation
+from geolocation import Geolocation, DistanceMapper
 
 
 class TripPlanner:
@@ -7,6 +7,7 @@ class TripPlanner:
     def __init__(self, starting_location):
         self.stores = None
         self.starting_location = starting_location
+        self.distance_mapper = DistanceMapper()
 
     def find_routes(self, needed_items, nearby_stores, max_distance):
         """ Finds all the possible routes to purchase the needed items within the specified search radius.
@@ -19,6 +20,12 @@ class TripPlanner:
         """
         # Filter the stores to only include stores with a Euclidean distance within the specified search radius
         self.stores = [store for store in nearby_stores if Geolocation.get_euclidean_dist(self.starting_location, store.location) <= max_distance]
+
+        # Get distances between places
+        locations = [store.location for store in self.stores]
+        locations.insert(0, self.starting_location)
+        self.distance_mapper.load_distances(locations, locations)
+
         base_plan = TripPlan(first_stop=self.starting_location)
         routes = self.__find_path_continuations(base_plan, [], needed_items, 2*max_distance)  # Max distance is the diameter of the circle
 
@@ -38,31 +45,38 @@ class TripPlanner:
         possible_paths = list()
         for next_store in self.stores:
             if next_store not in visited:
-                visited.append(next_store)
+                visited_copy = copy.copy(visited)
+                visited_copy.append(next_store)
                 # Get list of items available at this store
                 items_here = next_store.items
                 # If this store doesn't have any items, skip it
-                if len(items_here) == 0:
+                if not items_here or len(items_here) == 0:
                     continue
 
                 # Figure out which items we have left to get
                 items_left = [item for item in items_needed if item not in items_here]
 
                 # Calculate distance to here from previous stop
-                distance_to_store = Geolocation.get_euclidean_dist(base_plan.last_stop.location, next_store.location)
+                distance_to_store = self.distance_mapper.get_distance(base_plan.last_stop.location, next_store.location)
 
                 # Get the score for the store
                 score = self.__get_store_score(items_here, items_needed, distance_to_store, max_dist_btwn_stops)
 
                 # Add this stop to the plan
-                this_stop = TripStop(base_plan.last_stop, next_store, next_store.location, distance_to_store, score)
+                base_plan_copy = copy.deepcopy(base_plan)
+                this_stop = TripStop(base_plan_copy.last_stop, next_store, next_store.location, distance_to_store, score)
+                base_plan_copy.add_stop(this_stop)
 
-                # Now plan paths to all of the unvisited stores
-                new_plans_from_here = self.__find_path_continuations(this_stop, copy.copy(visited), items_left, max_dist_btwn_stops)
-                for plan_extension in new_plans_from_here:
-                    base_plan_copy = TripPlan(base_plan=base_plan)
-                    base_plan_copy.add_stop(TripStop(base_plan.last_stop, next_store, next_store.location, distance_to_store, score))
-                    possible_paths.append(TripPlan.combine(base_plan_copy, plan_extension))
+                if len(items_left) > 0:
+                    # Now plan paths to all of the unvisited stores
+                    possible_extensions = self.__find_path_continuations(base_plan_copy, visited_copy, items_left, max_dist_btwn_stops)
+
+                    for plan_extension in possible_extensions:
+                        # base_plan_copy2 = TripPlan(base_plan=base_plan_copy)
+                        # base_plan_copy2.add_stop(TripStop(base_plan_copy.last_stop, next_store, next_store.location, distance_to_store, score))
+                        possible_paths.append(plan_extension)
+                else:
+                    possible_paths.append(base_plan_copy)
 
         return possible_paths
 
@@ -92,12 +106,7 @@ class TripPlanner:
 class TripPlan:
 
     def __init__(self, **options):
-        if 'base_plan' in options:  # We're extending an existing route
-            base_plan = options['base_plan']
-            self.first_stop = base_plan.first_stop  # TODO Probably going to run into referencing problems. Need to copy base_plan?
-            self.last_stop = base_plan.last_stop
-            self.score = base_plan.score
-        elif 'first_stop' in options:  # We're starting a new route, and we know our first stop
+        if 'first_stop' in options:  # We're starting a new route, and we know our first stop
             first_stop_location = options['first_stop']
             self.first_stop = TripStop(None, None, first_stop_location, 0, 1)
             self.last_stop = self.first_stop
@@ -120,11 +129,22 @@ class TripPlan:
             self.last_stop = new_stop
         self.score += new_stop.score
 
+    def get_stops_as_list(self):
+        """ Returns a list of the stops. """
+        stop = self.first_stop
+        res = list()
+        while stop:
+            res.append(stop)
+            stop = stop.next_stop
+        return res
+        #print(res)
+
     @staticmethod
     def combine(first_plan, second_plan):
         """ Combines the two TripPlans into one. """
         first_plan.last_stop = second_plan.first_stop
         second_plan.first_stop = first_plan.last_stop
+        return first_plan
 
     @staticmethod
     def clone(first_stop):
@@ -157,3 +177,10 @@ class TripStop:
         self.dist_from_prev = dist_from_prev
         self.score = score
         self.next_stop = None
+
+
+    def __str__(self):
+        return '{store} at {location} has a score of {score} and is {dist} miles from the last stop.'.format(store=self.store, location=self.location, score=self.score, dist=self.dist_from_prev)
+
+    def get_string(self):
+        return '{store} at {location} has a score of {score} and is {dist} miles from the last stop.'.format(store=self.store, location=self.location, score=self.score, dist=self.dist_from_prev)

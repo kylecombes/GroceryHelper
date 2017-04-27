@@ -1,0 +1,49 @@
+
+         <title>GroceryHelper</title>
+         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Nunito" />
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Didact+Gothic" />
+     </head>
+ <body>
+  <div>
+     <h1>GroceryHelper</h1>
+
+    <div class = "topnav" id = "myTopnav">
+
+      <!--<ul>
+         <li><a href="http://127.0.0.1:5000/app">Get started!</a></li>
+         <li><a href="http://127.0.0.1:5000/about_team">Learn more</a></li>
+      </ul> -->
+      <a href="http://127.0.0.1:5000/">Home</a>
+      <a href="http://127.0.0.1:5000/app">Get started!</a>
+      <a href="http://127.0.0.1:5000/about_project">Learn more</a>
+      <a href="http://127.0.0.1:5000/about_us">Meet the team</a>
+
+   </div>
+
+</div>
+  <div id = "content">
+     <h1> Welcome to GroceryHelper!</h1>
+     <p>Feel free to navigate through the page using the navigation bar at the top of the page to try our app
+       and learn more about the project and out team!</p>
+
+     <h2> The Big Idea of GroceryHelper:</h2>
+
+     <p>Grocery shopping can often become a long and cumberson process. Often times one store will not have what you need
+       which requires you to travel to multiple inorder to aquire all of the groceries that you need.
+       GroceryHelper is a tool to make grocery shopping quicker and easier. When
+       ingredients and an origin location are inputted, our GroceryHelper webapp
+       will output a shopping plan which includes: a list of stores to visit in
+       sequential order, a map with directions to each store and back to your origin,
+       and a list of which ingredients to buy at each store.</p>
+
+      <h2>Instructions:</h2>
+
+      <p>No downloads are necessary. All code works through the webapp just click on Get Started!</p>
+
+      <img src="{{ url_for('static', filename='cow.jpg') }}" id = "bessie" style="width:600px;height:400px;">
+
+ </div>
+
+ </body>
+   </html>

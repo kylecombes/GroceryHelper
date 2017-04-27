@@ -1,56 +1,71 @@
-from django.db import models
+""" Models that are not tied to the database """
 
 
-# NOTE: To make parameters optional, set both 'blank' and 'null' to True.
+class Location:
 
-class Location(models.Model):
+    DB_TABLE_NAME = 'locations'
 
-    street_address = models.CharField(max_length=200)
-    city = models.CharField(max_length=30)
-    state = models.CharField(max_length=20)  # Could potentially be a territory
-    zipcode = models.IntegerField()
-    latitude = models.IntegerField(blank=True, null=True)
-    longitude = models.IntegerField(blank=True, null=True)
+    id = None
+    street_address = None
+    city = None
+    state = None
+    zipcode = None
+    latitude = None
+    longitude = None
+    store_id = None
+
+    def __init__(self, street_address, city, state, zipcode, latitude=None, longitude=None, row_id=None, store_id=None):
+        """ Creates a new Location object.
+            :param street_address: the street address (e.g. 123 Market St) - string
+            :param city: the city name (e.g. Needham) - string
+            :param state: the state's abbreviation (e.g. MA) - string
+            :param zipcode: the zip code of the location (e.g. 2492) - int
+            :param latitude: the latitude in decimal degrees - double
+            :param longitude: the longitude in decimal degrees - double
+            :param store_id: the 'id' value of the corresponding store in the 'stores' table - int
+        """
+        self.id = row_id
+        self.store_id = store_id
+        self.street_address = street_address
+        self.city = city
+        self.state = state
+        self.zipcode = zipcode
+        self.latitude = latitude
+        self.longitude = longitude
 
     def __str__(self):
         return '{0}, {1}, {2} {3:05d}'.format(self.street_address, self.city, self.state, self.zipcode)
 
 
-class Store(models.Model):
+class Store:
 
-    store_id = models.CharField(max_length=15)  # 'id' is already a built-in attribute
-    name = models.CharField(max_length=60)
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
-    #
-    # def merge(self, new_store):
-    #     """ Add data from another Store object. New attribute values are added and existing ones are updated, so long as
-    #         the new values are not None or of length 0 (for strings). I.e. blank attributes on new_store are ignored.
-    #
-    #         :param new_store: a store to import values from - Store
-    #     """
-    #     if new_store.name and len(new_store.name) > 0:
-    #         self.name = new_store.name
-    #     if new_store.address and len(new_store.address) > 0:
-    #         self.address = new_store.address
-    #     if new_store.city and len(new_store.city) > 0:
-    #         self.city = new_store.city
-    #     if new_store.state and len(new_store.state) > 0:
-    #         self.state = new_store.state
-    #     if new_store.zip and new_store.zip > 0:
-    #         self.zipcode = new_store.zip
-    #     if new_store.phone and new_store.phone > 0:
-    #         self.phone = new_store.phone
+    DB_TABLE_NAME = 'stores'
+
+    id = None
+    store_id = None
+    name = None
+    location = None
+    items = None
+
+    def __init__(self, store_id, name, location, row_id=None):
+        self.id = row_id
+        self.store_id = store_id
+        self.name = name
+        self.location = location
+
 
     def __str__(self):
-        return '(ID: {0}) {1} at {2}'.format(self.store_id, self.name, self.location)
+        return self.name #'(ID: {0}) {1} at {2}'.format(self.store_id, self.name, self.location)
 
 
-class FoodItem(models.Model):
+class FoodItem:
 
-    aisle = models.CharField(max_length=30)
-    category = models.CharField(max_length=30)
-    description = models.CharField(max_length=300)
-    item_id = models.IntegerField()
-    image_url = models.CharField(max_length=100)
-    name = models.CharField(max_length=100)
-    # store = models.ForeignKey(Store, blank=True, null=True)
+    DB_TABLE_NAME = 'items'
+
+    id = None
+    aisle = None
+    category = None
+    description = None
+    item_id = None
+    image_url = None
+    name = None

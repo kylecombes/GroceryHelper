@@ -1,10 +1,16 @@
 # Don't include our keys or databases
 /keys.py
+*.sqlite
 *.sqlite3
 migrations/
 
 # Mac stuff
 .DS_Store
+
+# Videos and big stuff
+*.mp4
+*.mov
+*.zip
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

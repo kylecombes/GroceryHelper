@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Nunito" />
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Didact+Gothic" />
+    <head>
+      <meta charset="utf-8">
+      <title>Address</title>
+    </head>
+<body>
+  <div>
+     <h1>GroceryHelper</h1>
+
+    <div class = "topnav" id = "myTopnav">
+
+      <!--<ul>
+         <li><a href="http://127.0.0.1:5000/app">Get started!</a></li>
+         <li><a href="http://127.0.0.1:5000/about_team">Learn more</a></li>
+      </ul> -->
+      <a href="http://127.0.0.1:5000/">Home</a>
+      <a href="http://127.0.0.1:5000/app">Get started!</a>
+      <a href="http://127.0.0.1:5000/about_project">Learn more</a>
+      <a href="http://127.0.0.1:5000/about_us">Meet the team</a>
+
+   </div>
+
+</div>
+<div id = "content">
+  <h2>What ingredients do you need?</h2>
+  <form action="/address" method="post">
+    <p>Please enter ingredients seperated by spaces<p/>
+      <h2></h2>
+    Ingredients:<br>
+    <input type = "text" name="ingredients"><br>
+
+    <h2>What is your address?</h2>
+    House Number:<br>
+   <input type="text" name="housenum"><br>
+
+   Street:<br>
+   <input type="text" name="street"><br>
+
+   City:<br>
+   <input type="text" name="city"><br>
+
+   State:<br>
+   <input type="text" name="state" maxlength="2"><br>
+
+   Zip Code:<br>
+   <input type="number" name="zip" minlength="5" maxlength="5"><br>
+
+   <input type="submit" value="Submit">
+  </form>
+</div>
+</body>
+</html>

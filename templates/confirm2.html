@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Nunito" />
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Didact+Gothic" />
+    <head>
+        <meta charset="utf-8">
+        <title>
+            GroceryHelper is working on helping you!
+        </title>
+    </head>
+    <body>
+<<<<<<< HEAD
+      <div>
+         <h1>GroceryHelper</h1>
+
+        <div class = "topnav" id = "myTopnav">
+
+          <!--<ul>
+             <li><a href="http://127.0.0.1:5000/app">Get started!</a></li>
+             <li><a href="http://127.0.0.1:5000/about_team">Learn more</a></li>
+          </ul> -->
+          <a href="http://127.0.0.1:5000/">Home</a>
+          <a href="http://127.0.0.1:5000/app">Get started!</a>
+          <a href="http://127.0.0.1:5000/about_project">Learn more</a>
+          <a href="http://127.0.0.1:5000/about_us">Meet the team</a>
+
+       </div>
+
+    </div>
+    <div id = "content">
+      <h1>The shit works</h1>
+
+        <p>{{cuisine}}
+        <p>{{location}}</p>
+        <p>{{stops}}</p>
+      </div>
+
+      <h1>Your Grocery Shopping Plan</h1>
+      <body>
+        <p>You wanted to have {{cuisine}} for dinner</p>
+        <p>From your location, {{location}}, travel to the following stores.</p>
+        <!--p>{{stops}}</p-->
+        
+        {% for stops in stops_print %}
+        <div class=flash>{{ stop }}</div>
+        {% endfor %}
+        {% block body %}{% endblock %}
+
+      <iframe src="{{src|safe}}" allowfullscreen
+        width="600"
+        height="450"
+        frameborder="0" style="border:0">
+      </iframe>
+        <p>You will aquire the following ingredients: {{ingredients}}.</p>
+
+    </body>
+</html>

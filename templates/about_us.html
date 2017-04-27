@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Nunito" />
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Didact+Gothic" />
+    <head>
+        <title>
+            GroceryHelper Webapp
+        </title>
+    </head>
+<body>
+  <div>
+     <h1>GroceryHelper</h1>
+
+    <div class = "topnav" id = "myTopnav">
+
+      <!--<ul>
+         <li><a href="http://127.0.0.1:5000/app">Get started!</a></li>
+         <li><a href="http://127.0.0.1:5000/about_team">Learn more</a></li>
+      </ul> -->
+      <a href="http://127.0.0.1:5000/">Home</a>
+      <a href="http://127.0.0.1:5000/app">Get started!</a>
+      <a href="http://127.0.0.1:5000/about_project">Learn more</a>
+      <a href="http://127.0.0.1:5000/about_us">Meet the team</a>
+   </div>
+
+</div>
+<div id = "content">
+    <header>
+    <p>Feel free to navigate through the page using the navigation bar at the top of the page to try our app
+    and learn more about the project and out team!</p>
+    <h1>Who are we?</h1>
+    </header>
+    <p>We are all first year students at the Franklin W. Olin College of Engineering in Needham, MA. Though most of us are planning to major
+      in different types of engineering, in our second semester at Olin we all opted to take the class Software Design. For our final project,
+    bound together through the love of food and dislike for performing menial tasks, we have became team GroceryHelper.</p>
+    <form action="/about_us" method="post">
+    <h2>Maggie</h2>
+    <img src="{{ url_for('static', filename='cow_maggie.jpg') }}" id = "maggie" style="width:304px;height:228px;">
+    <p>Maggie really likes cows and dislikes merge conflicts. She is a native of Washington state and has a strong afinity for her home city
+    of Tacoma, WA. At Olin she is unsure what she will major in but is planning to major in either mechanical or environmental engineering
+    because she finds sustainability facinating. If you are looking for her you can probably find her inhaling solder fumes in the LPB, sleeping
+    in the QEA room, falling down playing frisbee, or somewhere in the mountains.</p>
+    <h2>Personal Goals</h2>
+    <p>I went into this project with the goal of just gaining more experience programming in python. Additionally, I wanted to gain more
+      experience using data from an API, because I had never done a project that had used one before, and learn how to develope a webapp.
+    <h2>Kyle</h2>
+    <img src="{{ url_for('static', filename='cow_kyle.jpg') }}" id = "kyle" style="width:304px;height:228px;">
+    <p>Kyle really likes to eat food and dislikes broken databases. He is a native west coaster and lives very far west on the big island of
+    Hawaii. While at Olin Kyle will probably major in engineering with computing because he likes to do that. If you are looking for Kyle
+    you can probably find him doing research in the Robolab, in the QEA room, or on some volcanic island in the middle of the Pacific in
+    which case good luck.</p>
+    <h2>Personal Goals</h2>
+    <p>insert goals here</p>
+    <h2>Elena</h2>
+    <img src="{{ url_for('static', filename='cow_elena.jpg') }}" id = "elena" style="width:304px;height:228px;">
+    <p>Elena really likes to find new recipes and hates when her tea is to hot to drink. She is also a native of Washington state and would
+    like to take this time to mention that Tacoma, her home city, is the second largest city in western Washington. At Olin she is
+    maybe probably going to major in mechanical engineering but she has recently realized that she also likes to code. If you cannot find her
+    she is probably in her room working there because she likes to keep it hella warm, in the QEA room, lazercutting something for Baja, playing with
+    disks made of dinausors, or in Washington.</p>
+    <h2>Personal Goal</h2>
+    <p>My personal goal for this project was to learn more about different types of APIs. I also wanted to learn
+      more about using multiple APIs together and how to integrate the data. Additionally, I was curious about different types of algorithms
+      and how they can be used to sort and make use of large datasets. []</p>
+    <h2>Nina</h2>   <img src="{{ url_for('static', filename='cow_nina.jpg') }}" id = "nina" style="width:304px;height:228px;">
+    <p>Nina really likes aesthetics and dislikes github issues. She is the only native Massachusets resident on the team and would like to
+      point out that she is a good driver. At Olin she is also planning to major in engineering with computing because she likes to do
+      that and Girls who Code did a good job of teaching her that she can. If you are looking for her she is probably making a fool of herself
+      with OPIUM (not a drug), in the QEA room, sitting on her bed because it is comfortable, or chasing plastic disks outside.
+    </p>
+    <h2>Personal Goal</h2>
+    <p>My personal goals were to gain experience with using APIs as well as how to integrate python with web developement. I also really
+    liked discussing the algorithm needed for our program.</p>
+
+  </div>
+</html>
