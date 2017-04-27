@@ -3,7 +3,7 @@ webapp for GroceryHelper Project Flask Code
 """
 
 from flask import Flask
-
+import os.environ
 import json
 import math
 from pprint import pprint
@@ -20,6 +20,9 @@ from flask import request
 from models import Location
 from planning import TripPlan, TripStop
 from main import find_routes_given_ingredients
+
+HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
+PORT = int(os.environ.get('PORT', 5000)))
 
 app = Flask(__name__)
 
@@ -154,4 +157,4 @@ def getting_address(location=None, stops=None, src=None):
 #     the code below is executed if the request method
 #     was GET or the credentials were invalid
 if __name__ == '__main__':
-    app.run()
+    app.run(host=HOST, port=PORT)
