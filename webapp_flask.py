@@ -36,12 +36,20 @@ def webapp():
     return render_template('index.html')
     #'The about page'
 
-@app.route('/about_team', methods=['GET','POST'])
+@app.route('/about_project', methods=['GET','POST'])
 def webapp_about():
     if request.method == 'POST':
         #if request.form['index.html']:
         return redirect(url_for('about_team'))
     return render_template('about_team.html')
+    #'The about page'
+
+@app.route('/about_us', methods=['GET','POST'])
+def webapp_about_us():
+    if request.method == 'POST':
+        #if request.form['index.html']:
+        return redirect(url_for('about_us'))
+    return render_template('about_us.html')
     #'The about page'
 
 @app.route('/login', methods=['GET','POST'])
@@ -83,29 +91,20 @@ def getting_food(location=None,stops=None,cuisine=None, src=None):
           ingredients = request.form['ingredients']
           ingredients = ingredients.split(" ")
           ingredients = ", ".join(ingredients) #for word in ingredients])
-          print(ingredients)
-        #   type_check = type(ingredients)
-        #   print(type_check)
-
+          #print(ingredients)
 
           loc = Location(street_address, city, state, zipcode)
-          print(loc)
-          routes = find_routes_given_ingredients(loc, ingredients)
-          plan = routes.get_stops_as_list()
+          #print(loc)
+          stops = find_routes_given_ingredients(loc, ingredients)
+          src = Geolocation.get_directions(loc, stops)
 
-          #try:
-        #   for stop in Tripstop:
-        #       plan = TripStop(None, 'safeway', 'Tacoma', '10 miles', '10')
-        #       print(plan)
+          stops_print = []
+          for stop in stops:
+              stops_print.append(TripStop.get_string(stop))
+              stops_print = stops_print.split(',')
+          print(stops_print)
 
-          #except Exception as E:
-              #plan = E
-        #   plan = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
-        #   loc = str(street_address + ' ' + city + ', ' + state)
-
-          src = Geolocation.get_directions(loc, ["1000 Olin Way", "Boston College"])
-          return render_template('confirm2.html', location=loc, plan=plan,cuisine=cuisine, src=src)
-
+          return render_template('confirm2.html', location=loc, stops=stops_print,cuisine=cuisine, src=src)
 
       else:
           return render_template('food_input.html')
@@ -127,15 +126,25 @@ def getting_address(location=None, stops=None, src=None):
             ingredients = ", ".join(ingredients)
 
             loc = Location(street_address, city, state, zipcode)
-            results = find_routes_given_ingredients(loc, ingredients)
-            stops = results.get_stops_as_list()
+            stops = find_routes_given_ingredients(loc, ingredients)
+            #stops = results.get_stops_as_list()
 
+            # print('wut')
+            # for stop in stops:
+            #     stops = TripStop(results.last_stop, stop, stop.location, 13, 0.452)
+            #return stops
             # stops = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
             # loc = str(street_address + ' ' + city + ' ' + state)
-            
-            src = Geolocation.get_directions(loc, stops)
 
-            return render_template('confirm.html', location=loc, plan=stops, src=src)
+            src = Geolocation.get_directions(loc, stops)
+            stops_print = []
+            for stop in stops:
+                stops_print.append(TripStop.get_string(stop))
+                stops_print = stops_print.split(',')
+            #print(stops_print)
+
+
+            return render_template('confirm.html', location=loc, stops=stops_print, src=src)
 
         else:
           error = None

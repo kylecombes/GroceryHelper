@@ -130,6 +130,7 @@ class TripPlan:
             res.append(stop)
             stop = stop.next_stop
         return res
+        #print(res)
 
     @staticmethod
     def combine(first_plan, second_plan):
@@ -172,4 +173,7 @@ class TripStop:
 
 
     def __str__(self):
+        return '{store} at {location} has a score of {score} and is {dist} miles from the last stop.'.format(store=self.store, location=self.location, score=self.score, dist=self.dist_from_prev)
+
+    def get_string(self):
         return '{store} at {location} has a score of {score} and is {dist} miles from the last stop.'.format(store=self.store, location=self.location, score=self.score, dist=self.dist_from_prev)

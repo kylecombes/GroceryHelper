@@ -21,7 +21,9 @@
           </ul> -->
           <a href="http://127.0.0.1:5000/">Home</a>
           <a href="http://127.0.0.1:5000/app">Get started!</a>
-          <a href="http://127.0.0.1:5000/about_team">Learn more</a><
+          <a href="http://127.0.0.1:5000/about_project">Learn more</a>
+          <a href="http://127.0.0.1:5000/about_us">Meet the team</a>
+
        </div>
 
     </div>
@@ -30,7 +32,13 @@
       <h1>Your Grocery Shopping Plan</h1>
 
         <p>From your location, {{location}}, travel to the following stores.</p>
-        <p>{{plan}}</p>
+        <!--p>{{stops}}</p-->
+
+        {% for stop in stops %}
+        <div class=flash>{{ stop }}</div>
+        {% endfor %}
+        {% block body %}{% endblock %}
+
         <iframe src="{{src|safe}}" allowfullscreen
           width="600"
           height="450"
