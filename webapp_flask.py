@@ -140,7 +140,16 @@ def getting_address(location=None, stops=None, src=None):
             # loc = str(street_address + ' ' + city + ' ' + state)
 
             src = Geolocation.get_directions(loc, stops)
-            stops_html = '\n'.join(get_html_for_stop(s) for s in stops)
+            num_stops = len(stops)
+            if num_stops > 0:
+                stops_html = ''
+                for i in range(num_stops):
+                    stop_html = get_html_for_stop(stops[i], i)
+                    if i < 2:
+                        print(stop_html)
+                    stops_html = '{}{}\n'.format(stops_html, stop_html)
+            else:
+                stops_html = '<p>No viable routes found</p>'
 
 
             return render_template('confirm.html', location=loc, stops=stops_html, src=src)
@@ -150,15 +159,17 @@ def getting_address(location=None, stops=None, src=None):
           return render_template('address_input.html')
 
 
-def get_html_for_stop(stop):
+def get_html_for_stop(stop, i):
     html = '<div class="trip-stop">' \
+           '<span class="stop-number">{stopnum}</span>' \
            '<div class="store-info">'\
            '<span class="store-name">{name}</span>' \
            '<span class="store-location">{location}</span>' \
            '</div>' \
-           '<span class="stop-dist">{dist}</span>' \
+           '<span class="stop-dist">{dist} miles</span>' \
            '</div>' \
            .format(
+                stopnum=i,
                 name=stop.store.name,
                 location=stop.location,
                 dist=stop.dist_from_prev
