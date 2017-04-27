@@ -3,7 +3,7 @@ webapp for GroceryHelper Project Flask Code
 """
 
 from flask import Flask
-import os
+
 import json
 import math
 from pprint import pprint
@@ -20,9 +20,6 @@ from flask import request
 from models import Location
 from planning import TripPlan, TripStop
 from main import find_routes_given_ingredients
-
-HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
-PORT = int(os.environ.get('PORT', 5000))
 
 app = Flask(__name__)
 
@@ -140,37 +137,21 @@ def getting_address(location=None, stops=None, src=None):
             # loc = str(street_address + ' ' + city + ' ' + state)
 
             src = Geolocation.get_directions(loc, stops)
-            stops_html = '\n'.join(get_html_for_stop(s) for s in stops)
+            stops_print = []
+            for stop in stops:
+                stops_print.append(TripStop.get_string(stop))
+                stops_print = stops_print.split(',')
+            #print(stops_print)
 
 
-            return render_template('confirm.html', location=loc, stops=stops_html, src=src)
+            return render_template('confirm.html', location=loc, stops=stops_print, src=src)
 
         else:
           error = None
           return render_template('address_input.html')
 
-
-def get_html_for_stop(stop):
-    html = '<div class="trip-stop">' \
-           '<div class="store-info">'\
-           '<span class="store-name">{name}</span>' \
-           '<span class="store-location">{location}</span>' \
-           '</div>' \
-           '<span class="stop-dist">{dist}</span>' \
-           '</div>' \
-           .format(
-                name=stop.store.name,
-                location=stop.location,
-                dist=stop.dist_from_prev
-           )
-    return html
-
-
-
 #
 #     the code below is executed if the request method
 #     was GET or the credentials were invalid
 if __name__ == '__main__':
-    HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
-    PORT = int(os.environ.get('PORT', 5000))
-    app.run(host=HOST, port=PORT)
+    app.run()
