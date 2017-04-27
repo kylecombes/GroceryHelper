@@ -140,7 +140,7 @@ def getting_address(location=None, stops=None, src=None):
             stops_print = []
             for stop in stops:
                 stops_print.append(TripStop.get_string(stop))
-                stops_print = stops_print.split(',')
+                # stops_print = stops_print.split(',')
             #print(stops_print)
 
 

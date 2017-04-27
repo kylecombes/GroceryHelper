@@ -1,5 +1,5 @@
 import copy
-from geolocation import Geolocation
+from geolocation import Geolocation, DistanceMapper
 
 
 class TripPlanner:
@@ -7,6 +7,7 @@ class TripPlanner:
     def __init__(self, starting_location):
         self.stores = None
         self.starting_location = starting_location
+        self.distance_mapper = DistanceMapper()
 
     def find_routes(self, needed_items, nearby_stores, max_distance):
         """ Finds all the possible routes to purchase the needed items within the specified search radius.
@@ -19,6 +20,12 @@ class TripPlanner:
         """
         # Filter the stores to only include stores with a Euclidean distance within the specified search radius
         self.stores = [store for store in nearby_stores if Geolocation.get_euclidean_dist(self.starting_location, store.location) <= max_distance]
+
+        # Get distances between places
+        locations = [store.location for store in self.stores]
+        locations.insert(0, self.starting_location)
+        self.distance_mapper.load_distances(locations, locations)
+
         base_plan = TripPlan(first_stop=self.starting_location)
         routes = self.__find_path_continuations(base_plan, [], needed_items, 2*max_distance)  # Max distance is the diameter of the circle
 
@@ -50,7 +57,7 @@ class TripPlanner:
                 items_left = [item for item in items_needed if item not in items_here]
 
                 # Calculate distance to here from previous stop
-                distance_to_store = Geolocation.get_euclidean_dist(base_plan.last_stop.location, next_store.location)
+                distance_to_store = self.distance_mapper.get_distance(base_plan.last_stop.location, next_store.location)
 
                 # Get the score for the store
                 score = self.__get_store_score(items_here, items_needed, distance_to_store, max_dist_btwn_stops)

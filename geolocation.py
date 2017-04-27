@@ -2,7 +2,6 @@
 
 import json
 import math
-from pprint import pprint
 from urllib.parse import urlencode
 from urllib.request import urlopen
 
@@ -63,21 +62,22 @@ class Geolocation:
         if not loc2.latitude:
             Geolocation.load_lat_long_for_location(loc2)
         # Math from https://gis.stackexchange.com/questions/142326/calculating-longitude-length-in-miles
-        delta_lat_mi = (loc2.latitude - loc1.latitude)#*Geolocation.MILES_PER_DEGREE_LAT_LONG
-        delta_long_mi = (loc2.longitude - loc1.longitude)#*math.cos(loc1.latitude)*Geolocation.MILES_PER_DEGREE_LAT_LONG
+        delta_lat_mi = (loc2.latitude - loc1.latitude)*Geolocation.MILES_PER_DEGREE_LAT_LONG
+        delta_long_mi = (loc2.longitude - loc1.longitude)*math.cos(loc1.latitude)*Geolocation.MILES_PER_DEGREE_LAT_LONG
         return math.sqrt(math.pow(delta_lat_mi, 2) + math.pow(delta_long_mi, 2))
 
-    # TODO Get this working
     @staticmethod
-    def get_travel_distance(origin, destination):
-        """ Gets the driving distance between two locations.
-            :param origin the first location - Location
-            :param destination the second location - Location
-            :return the number of miles that must be traveled to go from loc1 to loc2
+    def get_travel_distances(origins, destinations):
+        """ Gets the driving distance between all of the origins and all of the destinations.
+            :param origins the starting locations - [Location]
+            :param destinations the ending locations - [Location]
+            :return a len(origins) X len(destinations) matrix with the driving distances between each origin and each destination
         """
-        paramsurldist = Geolocation.GMAPS_DIST_BASE_URL + '?units=imperial' + 'origins=' + origin + 'destinations=' + destination + '&key=' + KEY_DIST
+        dest_str = '|'.join((Geolocation.format_location_for_google(loc) for loc in origins))
+        origin_str = '|'.join((Geolocation.format_location_for_google(loc) for loc in destinations))
+        paramsurldist = Geolocation.GMAPS_DIST_BASE_URL + 'units=imperial&origins=' + origin_str + '&destinations=' + dest_str + '&key=' + KEY_DIST
         datadist = Geolocation.__get_json(paramsurldist)
-        pprint(datadist)
+        return datadist
 
     @staticmethod
     def get_directions(origin, stops):
@@ -97,26 +97,49 @@ class Geolocation:
         return '{street},{city},{state}+{zip}'\
             .format(street=street, city=city, state=location.state, zip=location.zipcode)
 
-    @staticmethod
-    def get_addr(latitude, longitude):
+
+class DistanceMapper:
+    """ Given two locations, tells you the number of miles driving between them. """
+
+    dists = {}
+
+    def load_distances(self, origins, destinations):
+
+        # Use the Google Distance Matrix API to get the driving distances between all the locations
+        dists = Geolocation.get_travel_distances(origins, destinations)
+        # Convert the data from JSON to dictionaries indexed by locations
+        if 'error_message' in dists:
+            return -1  # Likely too many origins and destinations for one API call
+        rows = dists['rows']
+        for i in range(len(rows)):
+            cols = rows[i]['elements']
+            origin = origins[i]
+            for j in range(len(cols)):
+                dest = destinations[j]
+                if dest != origin:  # Don't store a path from a location to itself
+                    dist = cols[j]['distance']['value']/1609  # Convert meters to miles
+                    self.add_dist(origin, dest, dist)
+
+    def add_dist(self, origin, destination, dist):
+        """ Saves a distance calculation between two locations.
+        :param origin: the originating location - Location
+        :param destination: the end location - Location
+        :param dist: the number of driving miles between the two locations - int
         """
+        if origin not in self.dists:
+            self.dists[origin] = {}
+        if destination not in self.dists:
+            self.dists[destination] = {}
+        self.dists[origin][destination] = dist
+        self.dists[destination][origin] = dist
 
+    def get_distance(self, origin, destination):
+        """ Looks up the distance between two locations.
+            :param origin: the originating location - Location
+            :param destination: the end location - Location
+            :return the number of driving miles between the two locations - int
         """
-        params1 = urlencode({'lat':latitude,'lng':longitude})
-        lat = str(latitude)
-        lng = str(longitude)
-        #print(lat)
-        paramsaddr = 'latlng' + '=' + lat + ',' + lng
-        #print('goooopoooo')
-        paramsurladdr = GMAPS_BASE_URL + '?' + paramsaddr + '&key=' + key_geo
-        #print(paramsurladdr)
-        dataaddr = get_json(paramsurladdr)
-        #pprint(dataaddr)
-        #print('wooooooooooooooooooo')
-        #something with getting the address is wierd
-        addr = (dataaddr['formatted_address'])
-        #print(addr)
-        return addr
-
-
-# print(Geolocation.get_directions('Fenway Park',['1000 Olin Way, Needham, MA 02492','Faneuil Hall', 'Another Place', 'and Another']))
+        # Check to see if we know this distance. If not, load it first.
+        if origin not in self.dists and destination not in self.dists:
+            self.load_distances([origin], [destination])
+        return self.dists[origin][destination]
