@@ -17,7 +17,7 @@ h1 {
   color: lightseagreen;
    background-color: white;
  }
- p{
+ p, #red{
    color: tomato;
  }
 /* Add a black background color to the top navigation */
@@ -74,6 +74,10 @@ line-height: 20px;
   display: block;
     margin: auto;
     width: 90%;
+}
+#description{
+  display: block;
+    margin: auto;
 }
 input[type=submit]{
     background-color: tomato;

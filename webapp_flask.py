@@ -140,18 +140,32 @@ def getting_address(location=None, stops=None, src=None):
             # loc = str(street_address + ' ' + city + ' ' + state)
 
             src = Geolocation.get_directions(loc, stops)
-            stops_print = []
-            for stop in stops:
-                stops_print.append(TripStop.get_string(stop))
-                stops_print = stops_print.split(',')
-            #print(stops_print)
+            stops_html = '\n'.join(get_html_for_stop(s) for s in stops)
 
 
-            return render_template('confirm.html', location=loc, stops=stops_print, src=src)
+            return render_template('confirm.html', location=loc, stops=stops_html, src=src)
 
         else:
           error = None
           return render_template('address_input.html')
+
+
+def get_html_for_stop(stop):
+    html = '<div class="trip-stop">' \
+           '<div class="store-info">'\
+           '<span class="store-name">{name}</span>' \
+           '<span class="store-location">{location}</span>' \
+           '</div>' \
+           '<span class="stop-dist">{dist}</span>' \
+           '</div>' \
+           .format(
+                name=stop.store.name,
+                location=stop.location,
+                dist=stop.dist_from_prev
+           )
+    return html
+
+
 
 #
 #     the code below is executed if the request method
