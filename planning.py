@@ -4,10 +4,10 @@ from geolocation import Geolocation, DistanceMapper
 
 class TripPlanner:
 
-    def __init__(self, starting_location):
+    def __init__(self, starting_location, distances=None):
         self.stores = None
         self.starting_location = starting_location
-        self.distance_mapper = DistanceMapper()
+        self.distance_mapper = distances if distances else DistanceMapper()
 
     def find_routes(self, needed_items, nearby_stores, max_distance):
         """ Finds all the possible routes to purchase the needed items within the specified search radius.
@@ -28,9 +28,14 @@ class TripPlanner:
 
         base_plan = TripPlan(first_stop=self.starting_location)
         routes = self.__find_path_continuations(base_plan, [], needed_items, 2*max_distance)  # Max distance is the diameter of the circle
+        # Add returning to the starting point
+        for route in routes:
+            dist_home = self.distance_mapper.get_distance(route.last_stop.location, self.starting_location)
+            home_stop = TripStop(route.last_stop, None, self.starting_location, dist_home, 0)
+            route.add_stop(home_stop)
 
         # Sort stores best to worst
-        routes.sort(key=lambda r: r.score)
+        routes.sort(key=lambda r: r.last_stop.dist_from_start)
 
         return routes
 
@@ -93,14 +98,14 @@ class TripPlanner:
             :param max_dist_btwn_stops: the maximum distance the user can travel between two stops (used for normalizing distance scores) - int
         """
         # Calculate percentage of items not available at store
-        number_have = len([x for x in items_needed if x not in items_at_store])
-        percent_have = number_have / len(items_needed)
+        # number_have = len([x for x in items_needed if x not in items_at_store])
+        # percent_have = number_have / len(items_needed)
 
         # Calculate distance score
-        distance_score = distance_to_store / max_dist_btwn_stops
+        distance_score = 1 - distance_to_store / max_dist_btwn_stops
 
         # Take the weighted average and return the score
-        return (percent_have * self.ITEMS_WEIGHT + distance_score * self.DISTANCE_WEIGHT)/(self.ITEMS_WEIGHT + self.DISTANCE_WEIGHT)
+        return distance_score#(percent_have * self.ITEMS_WEIGHT + distance_score * self.DISTANCE_WEIGHT)/(self.ITEMS_WEIGHT + self.DISTANCE_WEIGHT)
 
 
 class TripPlan:
@@ -175,6 +180,7 @@ class TripStop:
         self.store = store
         self.location = location
         self.dist_from_prev = dist_from_prev
+        self.dist_from_start = (prev_stop.dist_from_start + dist_from_prev) if prev_stop else dist_from_prev
         self.score = score
         self.next_stop = None
 
