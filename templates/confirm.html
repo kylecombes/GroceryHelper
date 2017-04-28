@@ -34,16 +34,16 @@
         <p>From your location, {{location}}, travel to the following stores.</p>
         <!--p>{{stops}}</p-->
 
-        {% for stop in stops %}
-        <div class=flash>{{ stop }}</div>
-        {% endfor %}
+        <div class="stops-container">{{stops|safe}}</div>
         {% block body %}{% endblock %}
 
+        <div class="map-container">
         <iframe src="{{src|safe}}" allowfullscreen
           width="600"
           height="450"
           frameborder="0" style="border:0">
         </iframe>
+        </div>
     </body>
   </div>
 </html>

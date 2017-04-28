@@ -136,4 +136,3 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     sdu = StoreDbUpdater(args.start_zip, args.end_zip, args.workers)
-

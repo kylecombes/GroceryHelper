@@ -9,17 +9,18 @@ with app.app_context():
     # Geolocation.load_lat_long_for_location(user_loc)
     # stores = get_stores_near_me(user_loc, 10, 20)
 
-    # loc1 = Location('Stop 1', None, None, None, 1, 3)
-    # store1 = Store(1, 'Store 1', loc1)
-    # stores[1].items = ['A', 'C', 'B']
-    # loc2 = Location('Stop 2', None, None, None, 2, 3.5)
-    # store2 = Store(2, 'Store 2', loc2)
-    # stores[2].items = ['A', 'D']
-    # loc3 = Location('Stop 3', None, None, None, 2, 5)
-    # store3 = Store(3, 'Store 3', loc3)
-    # stores[3].items = ['D']
-    # loc4 = Location('Stop 4', None, None, None, 4, 3.5)
-    # store4 = Store(4, 'Store 4', loc4)
+    loc1 = Location('Stop 1', None, None, None, 2, 5)
+    store1 = Store(1, 'Store 1', loc1)
+    # store1.items = ['A', 'C', 'B']
+    loc2 = Location('Stop 2', None, None, None, 2, 3.5)
+    store2 = Store(2, 'Store 2', loc2)
+    store2.items = ['A', 'D']
+    loc3 = Location('Stop 3', None, None, None, 1, 3)
+    store3 = Store(3, 'Store 3', loc3)
+    store3.items = ['A', 'C']
+    loc4 = Location('Stop 4', None, None, None, 4, 3.5)
+    store4 = Store(4, 'Store 4', loc4)
+    store4.items = ['B']
     # loc5 = Location('Stop 5', None, None, None, 8, 1)
     # store5 = Store(5, 'Store 5', loc5)
     # store5.items = ['B']
@@ -30,12 +31,13 @@ with app.app_context():
     # loc8 = Location('Stop 8', None, None, None, 5.5, 6)
     # store8 = Store(8, 'Store 8', loc8)
     needed_items = ['A', 'B', 'C', 'D']
-    # stores = [store1, store2]#, store3, store4, store5, store6, store7, store8]
-    # planner = TripPlanner(user_loc)
-    # plans = planner.find_routes(needed_items, stores, 100)
+    stores = [store1, store2, store3, store4]#, store5, store6, store7, store8]
+    planner = TripPlanner(user_loc)
+    plans = planner.find_routes(needed_items, stores, 100)
+    stops = plans[0].get_stops_as_list()
 
-    routes = find_routes_given_ingredients(user_loc, needed_items)
-    stops = routes[0].get_stops_as_list()
+    # routes = find_routes_given_ingredients(user_loc, needed_items)
+    # stops = routes[0].get_stops_as_list()
     for stop in stops:
         if stop.store:
             print(stop.store)
