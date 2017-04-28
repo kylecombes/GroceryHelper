@@ -1,5 +1,6 @@
 import copy
 from geolocation import Geolocation, DistanceMapper
+from ingredients_at_stores import where_are_ingredients
 
 
 class TripPlanner:
@@ -20,6 +21,9 @@ class TripPlanner:
         """
         # Filter the stores to only include stores with a Euclidean distance within the specified search radius
         self.stores = [store for store in nearby_stores if Geolocation.get_euclidean_dist(self.starting_location, store.location) <= max_distance]
+
+        # Load items at stores
+        where_are_ingredients(needed_items, self.stores)
 
         # Get distances between places
         locations = [store.location for store in self.stores]

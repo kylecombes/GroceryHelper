@@ -47,12 +47,15 @@ class Store:
     location = None
     items = None
 
-    def __init__(self, store_id, name, location, row_id=None, items = []):
+    def __init__(self, store_id, name, location, row_id=None, items = None):
         self.id = row_id
         self.store_id = store_id
         self.name = name
         self.location = location
-        self.items = items
+        if not items:
+            self.items = []
+        else:
+            self.items = items
 
 
     def __str__(self):
@@ -60,8 +63,8 @@ class Store:
         for item in self.items:
             list_of_ings += item + ' and '
         list_of_ings = list_of_ings[:-4]
-        print(len(self.items   ))
-        return list_of_ings #'(ID: {0}) {1} at {2}'.format(self.store_id, self.name, self.location)
+        # print(len(self.items   ))
+        return '(ID: {0}) {1} at {2}'.format(self.store_id, self.name, self.location)
 
 
 class FoodItem:

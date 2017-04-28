@@ -62,8 +62,8 @@ class Geolocation:
         if not loc2.latitude:
             Geolocation.load_lat_long_for_location(loc2)
         # Math from https://gis.stackexchange.com/questions/142326/calculating-longitude-length-in-miles
-        delta_lat_mi = (loc2.latitude - loc1.latitude)#*Geolocation.MILES_PER_DEGREE_LAT_LONG
-        delta_long_mi = (loc2.longitude - loc1.longitude)#*math.cos(loc1.latitude)*Geolocation.MILES_PER_DEGREE_LAT_LONG
+        delta_lat_mi = (loc2.latitude - loc1.latitude)*Geolocation.MILES_PER_DEGREE_LAT_LONG
+        delta_long_mi = (loc2.longitude - loc1.longitude)*math.cos(loc1.latitude)*Geolocation.MILES_PER_DEGREE_LAT_LONG
         return math.sqrt(math.pow(delta_lat_mi, 2) + math.pow(delta_long_mi, 2))
 
     @staticmethod

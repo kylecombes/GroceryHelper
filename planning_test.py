@@ -6,21 +6,21 @@ app = Flask(__name__)
 
 with app.app_context():
     user_loc = Location('1000 Olin Way', 'Needham', 'MA', 2492, 1, 1)
-    # Geolocation.load_lat_long_for_location(user_loc)
-    # stores = get_stores_near_me(user_loc, 10, 20)
+    Geolocation.load_lat_long_for_location(user_loc)
+    stores = get_stores_near_me(user_loc, 10, 20)
 
-    loc1 = Location('Stop 1', None, None, None, 2, 5)
-    store1 = Store(1, 'Store 1', loc1)
-    # store1.items = ['A', 'C', 'B']
-    loc2 = Location('Stop 2', None, None, None, 2, 3.5)
-    store2 = Store(2, 'Store 2', loc2)
-    store2.items = ['A', 'D']
-    loc3 = Location('Stop 3', None, None, None, 1, 3)
-    store3 = Store(3, 'Store 3', loc3)
-    store3.items = ['A', 'C']
-    loc4 = Location('Stop 4', None, None, None, 4, 3.5)
-    store4 = Store(4, 'Store 4', loc4)
-    store4.items = ['B']
+    # loc1 = Location('Stop 1', None, None, None, 2, 5)
+    # store1 = Store(1, 'Store 1', loc1)
+    # # store1.items = ['A', 'C', 'B']
+    # loc2 = Location('Stop 2', None, None, None, 2, 3.5)
+    # store2 = Store(2, 'Store 2', loc2)
+    # store2.items = ['A', 'D']
+    # loc3 = Location('Stop 3', None, None, None, 1, 3)
+    # store3 = Store(3, 'Store 3', loc3)
+    # store3.items = ['A', 'C']
+    # loc4 = Location('Stop 4', None, None, None, 4, 3.5)
+    # store4 = Store(4, 'Store 4', loc4)
+    # store4.items = ['B']
     # loc5 = Location('Stop 5', None, None, None, 8, 1)
     # store5 = Store(5, 'Store 5', loc5)
     # store5.items = ['B']
@@ -30,8 +30,10 @@ with app.app_context():
     # store7 = Store(7, 'Store 7', loc7)
     # loc8 = Location('Stop 8', None, None, None, 5.5, 6)
     # store8 = Store(8, 'Store 8', loc8)
-    needed_items = ['A', 'B', 'C', 'D']
-    stores = [store1, store2, store3, store4]#, store5, store6, store7, store8]
+    # needed_items = ['A', 'B', 'C', 'D']
+    needed_items = ['apples', 'juice', 'beef']
+
+    # stores = [store1, store2, store3, store4]#, store5, store6, store7, store8]
     planner = TripPlanner(user_loc)
     plans = planner.find_routes(needed_items, stores, 100)
     stops = plans[0].get_stops_as_list()

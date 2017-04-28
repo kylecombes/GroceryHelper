@@ -41,8 +41,10 @@ def format_food_url(store_id, food):
     food = "&ItemName=" + food
     return base_url + SUPERMARKET_API_KEY + store + food
 
-ingredients = ["cherry", "arugala", "cucumber", "coke", "cheddar cheese"]
-store = Store('e6k3fjw75k', 'Roche Bros', '1000 Olin Way')
-items_found = where_are_ingredients(ingredients, [store])
-for item in items_found:
-    print(item)
+
+if __name__ == '__main__':
+    ingredients = ["cherry", "arugala", "cucumber", "coke", "cheddar cheese"]
+    store = Store('e6k3fjw75k', 'Roche Bros', '1000 Olin Way')
+    items_found = where_are_ingredients(ingredients, [store])
+    for item in items_found:
+        print(item)
