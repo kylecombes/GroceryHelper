@@ -58,7 +58,7 @@ class Store:
     def __str__(self):
         list_of_ings = ''
         for item in self.items:
-            list_of_ings += item + ' and '
+            list_of_ings += item + ' and'
         list_of_ings = list_of_ings[:-4]
         print(len(self.items   ))
         return list_of_ings #'(ID: {0}) {1} at {2}'.format(self.store_id, self.name, self.location)
