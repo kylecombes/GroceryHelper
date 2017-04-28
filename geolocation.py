@@ -62,8 +62,8 @@ class Geolocation:
         if not loc2.latitude:
             Geolocation.load_lat_long_for_location(loc2)
         # Math from https://gis.stackexchange.com/questions/142326/calculating-longitude-length-in-miles
-        delta_lat_mi = (loc2.latitude - loc1.latitude)*Geolocation.MILES_PER_DEGREE_LAT_LONG
-        delta_long_mi = (loc2.longitude - loc1.longitude)*math.cos(loc1.latitude)*Geolocation.MILES_PER_DEGREE_LAT_LONG
+        delta_lat_mi = (loc2.latitude - loc1.latitude)#*Geolocation.MILES_PER_DEGREE_LAT_LONG
+        delta_long_mi = (loc2.longitude - loc1.longitude)#*math.cos(loc1.latitude)*Geolocation.MILES_PER_DEGREE_LAT_LONG
         return math.sqrt(math.pow(delta_lat_mi, 2) + math.pow(delta_long_mi, 2))
 
     @staticmethod
@@ -104,6 +104,15 @@ class DistanceMapper:
     dists = {}
 
     def load_distances(self, origins, destinations):
+
+        # Debugging
+        for i in range(len(origins)-1):
+            origin = origins[i]
+            for j in range(i+1,len(origins)):
+                dest = destinations[j]
+                dist = Geolocation.get_euclidean_dist(origin, dest)
+                self.add_dist(origin, dest, dist)
+        return
 
         # Use the Google Distance Matrix API to get the driving distances between all the locations
         dists = Geolocation.get_travel_distances(origins, destinations)

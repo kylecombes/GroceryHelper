@@ -16,23 +16,23 @@ def find_routes_given_ingredients(user_location, ingredients):
     # TODO Make this actually do something dynamic
     stores = get_stores_near_me(user_location, 20, 10)
     # plan = TripPlan()
-    # ingredients_at_stores = ['A', 'B', 'C', 'D', 'E', 'F']
-    # for i in range(len(stores)):
-    #     if i > len(ingredients_at_stores):
-    #         break
-    #     stores[i].items = ingredients_at_stores[i]
+    ingredients_at_stores = ['A', 'B', 'C', 'D', 'E', 'F']
+    for i in range(len(stores)):
+        if i > len(ingredients_at_stores):
+            break
+        stores[i].items = ingredients_at_stores[i]
 
-    plan = TripPlan()
-    for store in stores:
-        store.items = ingredients
-        stop = TripStop(plan.last_stop, store, store.location, 13, 0.452)
-        if plan.last_stop:
-            plan.last_stop.next_stop = stop
-        plan.add_stop(stop)
-    stops = TripPlan.get_stops_as_list(plan)
-    # tp = TripPlanner(user_location)
-    # routes = tp.find_routes(ingredients, stores, 10)
-    return stops
+    # plan = TripPlan()
+    # for store in stores:
+    #     store.items = ingredients
+    #     stop = TripStop(plan.last_stop, store, store.location, 13, 0.452)
+    #     if plan.last_stop:
+    #         plan.last_stop.next_stop = stop
+    #     plan.add_stop(stop)
+    # stops = TripPlan.get_stops_as_list(plan)
+    tp = TripPlanner(user_location)
+    routes = tp.find_routes(ingredients, stores, 10)
+    return routes[0].get_stops_as_list()
 
 
 def get_stores_near_me(my_loc, radius, number):

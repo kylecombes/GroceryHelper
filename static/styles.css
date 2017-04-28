@@ -1,8 +1,13 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 h1 {
   display: inline-block;
   font-family: Nunito;
 	font-size: 49px;
-	font-style: oblique;
 	font-variant: small-caps;
 	font-weight: bold;
 	line-height: 53.9px;
@@ -27,7 +32,7 @@ h1 {
     left:10px;
     top:20px;
     background-color: white;
-    overflow: scroll;
+    overflow: auto;
 
 }
 
@@ -53,8 +58,8 @@ h1 {
     color: white;
 }
 
-background-color: white;
-+p {
+/*background-color: white;*/
+p {
 font-family: "Didact Gothic";
 font-size: 20px;
 font-style: normal;
@@ -87,6 +92,69 @@ input[type=submit]{
     text-decoration: none;
     margin: 4px 2px;
     cursor: pointer;
+}
+
+/* ---------- Begin Stops Container ---------- */
+.stops-container {
+    width: 50%;
+    float: left;
+    padding-right: 1em;
+}
+
+.trip-stop{
+    width: 100%;
+    overflow: auto;
+    padding: 0.5em;
+}
+
+.stop-number {
+    float: left;
+    overflow: auto;
+    height: 100%;
+    font-size: 160%;
+    font-weight: bold;
+    padding: 0.4em 0.8em 0.4em 0;
+}
+
+.store-info {
+    width: 50%;
+    float: left;
+}
+
+.store-name {
+    float: left;
+    width: 100%;
+    font-size: 120%;
+    font-weight: bold;
+}
+
+.store-location {
+    float: left;
+    width: 100%;
+    padding-left: 0.5em;
+}
+
+.stop-dist {
+    float: right;
+    padding: 0.3em;
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.stops-container > div:not(:last-child) {
+    border-bottom: 1px solid #cccccc;
+}
+
+/* ---------- End Stops Container ----------- */
+
+.map-container {
+    width: 50%;
+    overflow: auto;
+}
+
+.map-container iframe {
+    padding: 1em;
+    width: 100%;
 }
 
 /*
