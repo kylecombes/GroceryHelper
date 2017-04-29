@@ -10,7 +10,7 @@
         </title>
     </head>
 <body>
-  <div>
+  <div class="header">
      <h1>GroceryHelper</h1>
 
     <div class = "topnav" id = "myTopnav">
@@ -60,14 +60,16 @@
 
     <h2>Implementation information</h2>
 
-    <p>The GroceryHelper path finding algorithm works by first filtering grocery stores by Euclidean
+    <p><img class="image-right" src="/static/Flowchart.png" alt="Program flowchart"/>
+      The GroceryHelper path finding algorithm works by first filtering grocery stores by Euclidean
       distance away from the location of the user. This is done by using the latitude and longitude
       of the locations. It then identifies which stores have which ingredients and makes a list of
       every path possible to get all the ingredients. Each calculated path is then scored based on
       how many stops there are and what the total distance traveled is. The path with the minimum
       score is chosen and then the route the user should take along with the items they should buy
       at each store is given to the user.</p>
-    <img src="{{ url_for('static', filename='Pres-AI-depiction-01.jpg') }}" id = "description" style="width:600px;height:400px;">
+
+    <!--<img src="{{ url_for('static', filename='Pres-AI-depiction-01.jpg') }}" id = "description" style="width:600px;height:400px;">-->
     <h2>Results</h2>
 
     <p>
@@ -100,7 +102,7 @@
 
     <h2>Attribution</h2>
 
-    <p>We used three API’s to create our app:
+    <p>We used three APIs to create our app:
       <ol>
         <li>Supermarket API for product information at local stores</li>
         <li>Yummly API for the recipe database</li>

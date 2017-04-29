@@ -25,6 +25,11 @@ h1 {
  p, #red{
    color: tomato;
  }
+
+ .header {
+     margin: 1em 4em;
+ }
+
 /* Add a black background color to the top navigation */
 .topnav {
     display: inline-block;
@@ -65,7 +70,7 @@ font-size: 20px;
 font-style: normal;
 font-variant: normal;
 font-weight: 400;
-line-height: 20px;
+line-height: 30px;
  }
 
 #content{
@@ -92,6 +97,14 @@ input[type=submit]{
     text-decoration: none;
     margin: 4px 2px;
     cursor: pointer;
+}
+
+.image-right {
+    float: right;
+    max-width: 100%;
+    padding: 0.2em;
+    border: 1px solid #cecece;
+    margin-left: 3em;
 }
 
 /* ---------- Begin Stops Container ---------- */
