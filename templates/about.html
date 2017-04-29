@@ -36,9 +36,22 @@
        sequential order, a map with directions to each store and back to your origin,
        and a list of which ingredients to buy at each store.</p>
 
-      <h2>Instructions:</h2>
+      <h2>Running GrocerHelper</h2>
 
-      <p>No downloads are necessary. All code works through the webapp just click on Get Started!</p>
+      <p>
+          A hosted version of GroceryHelper can be accessed at <a href="https://groceryhelper-sd2017.herokuapp.com/">
+          https://groceryhelper-sd2017.herokuapp.com/</a> In order to run GroceryHelper, you'll need to install a few
+          Python 3 dependencies. Just run the following
+          command in Terminal: <em>pip3 install flask untangle</em>. Then to launch the web app, run <em>python3
+          webapp_flask.py</em>.
+      </p>
+
+      <h2>How it works</h2>
+
+      <p>GroceryHelper utilizes the <a href="http://supermarketapi.com/Default.aspx">Supermarket API</a> to determine which
+          stores carry what items. It also uses the Google Maps APIs for geolocation and distance calculations.</p>
+
+      <img src=""
 
       <img src="{{ url_for('static', filename='cow.jpg') }}" id = "bessie" style="width:600px;height:400px;">
 
