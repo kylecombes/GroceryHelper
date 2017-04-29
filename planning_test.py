@@ -31,7 +31,7 @@ with app.app_context():
     # loc8 = Location('Stop 8', None, None, None, 5.5, 6)
     # store8 = Store(8, 'Store 8', loc8)
     # needed_items = ['A', 'B', 'C', 'D']
-    needed_items = ['apples', 'juice', 'beef']
+    needed_items = ['chobani', 'masala']
 
     # stores = [store1, store2, store3, store4]#, store5, store6, store7, store8]
     planner = TripPlanner(user_loc)

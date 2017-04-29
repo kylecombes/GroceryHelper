@@ -14,28 +14,16 @@ def find_routes_given_ingredients(user_location, ingredients):
         :param ingredients: the ingredients the user needs - list
         :return a list of routes, sorted best to worst
     """
+    Geolocation.load_lat_long_for_location(user_location)
     planner = TripPlanner(user_location)
-    # TODO Make this actually do something dynamic
+    needed_items = ingredients.split(',')
+    needed_items = [item.strip() for item in needed_items]
+    print(needed_items)
     stores = get_stores_near_me(user_location, 20, 10)
-    # ingredients_at_stores = ['A', 'B', 'C', 'D', 'E', 'F']
-    # for i in range(len(stores)):
-    #     if i > len(ingredients_at_stores):
-    #         break
-    #     stores[i].items = ingredients_at_stores[i]
 
-    plan = planner.find_routes(ingredients, stores, 100)
+    plans = planner.find_routes(needed_items, stores, 20)
 
-    # for store in stores:
-    #     store.items = ingredients
-    #     stop = TripStop(plan.last_stop, store, store.location, 13, 0.452)
-    #     if plan.last_stop:
-    #         plan.last_stop.next_stop = stop
-    #     plan.add_stop(stop)
-    stops = TripPlan.get_stops_as_list(plan)
-    return stops
-    # tp = TripPlanner(user_location)
-    # routes = tp.find_routes(ingredients, stores, 10)
-    # return routes[0].get_stops_as_list()
+    return plans
 
 
 def get_stores_near_me(my_loc, radius, number):

@@ -103,7 +103,7 @@ def getting_food(location=None,stops=None,cuisine=None, src=None):
 
           stops_print = []
           for stop in stops:
-              stops_print.append(TripStop.get_string(stop))
+              stops_print.append(str(stop))
               stops_print = stops_print.split(',')
           print(stops_print)
 
@@ -125,29 +125,27 @@ def getting_address(location=None, stops=None, src=None):
             state = str(request.form['state'])
 
             ingredients = str(request.form['ingredients'])
-            ingredients = ingredients.split(" ")
-            ingredients = ", ".join(ingredients)
+            # ingredients = ingredients.split(" ")
+            # ingredients = ", ".join(ingredients)
 
             loc = Location(street_address, city, state, zipcode)
-            stops = find_routes_given_ingredients(loc, ingredients)
-            #stops = results.get_stops_as_list()
+            results = find_routes_given_ingredients(loc, ingredients)
 
-            # print('wut')
-            # for stop in stops:
-            #     stops = TripStop(results.last_stop, stop, stop.location, 13, 0.452)
-            #return stops
-            # stops = TripStop(None, 'Safeway', 'Tacoma', '10 miles', '10')
-            # loc = str(street_address + ' ' + city + ' ' + state)
+            if len(results) > 0:
+                src = Geolocation.get_directions(loc, stops)
 
-            src = Geolocation.get_directions(loc, stops)
-            num_stops = len(stops)
-            if num_stops > 0:
-                stops_html = ''
-                for i in range(num_stops):
-                    stop_html = get_html_for_stop(stops[i], i)
-                    if i < 2:
-                        print(stop_html)
-                    stops_html = '{}{}\n'.format(stops_html, stop_html)
+                stops = results[0].get_stops_as_list()
+                num_stops = len(stops)
+                if num_stops > 0:
+                    stops_html = ''
+                    for i in range(num_stops):
+                        print('Looking at stop ', stops[i])
+                        stop_html = get_html_for_stop(stops[i], i)
+                        if i < 2:
+                            print(stop_html)
+                        stops_html = '{}{}\n'.format(stops_html, stop_html)
+                else:
+                    stops_html = '<p>No viable routes found</p>'
             else:
                 stops_html = '<p>No viable routes found</p>'
 
@@ -160,17 +158,18 @@ def getting_address(location=None, stops=None, src=None):
 
 
 def get_html_for_stop(stop, i):
+    name = stop.store.name if stop.store else 'Home'
     html = '<div class="trip-stop">' \
            '<span class="stop-number">{stopnum}</span>' \
            '<div class="store-info">'\
            '<span class="store-name">{name}</span>' \
            '<span class="store-location">{location}</span>' \
            '</div>' \
-           '<span class="stop-dist">{dist} miles</span>' \
+           '<span class="stop-dist">{dist:0.1f} miles</span>' \
            '</div>' \
            .format(
                 stopnum=i,
-                name=stop.store.name,
+                name=name,
                 location=stop.location,
                 dist=stop.dist_from_prev
            )

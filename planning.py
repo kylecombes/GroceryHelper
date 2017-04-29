@@ -78,12 +78,10 @@ class TripPlanner:
 
                 if len(items_left) > 0:
                     # Now plan paths to all of the unvisited stores
-                    possible_extensions = self.__find_path_continuations(base_plan_copy, visited_copy, items_left, max_dist_btwn_stops)
+                    found_paths = self.__find_path_continuations(base_plan_copy, visited_copy, items_left, max_dist_btwn_stops)
 
-                    for plan_extension in possible_extensions:
-                        # base_plan_copy2 = TripPlan(base_plan=base_plan_copy)
-                        # base_plan_copy2.add_stop(TripStop(base_plan_copy.last_stop, next_store, next_store.location, distance_to_store, score))
-                        possible_paths.append(plan_extension)
+                    for path in found_paths:
+                        possible_paths.append(path)
                 else:
                     possible_paths.append(base_plan_copy)
 
@@ -190,7 +188,4 @@ class TripStop:
 
 
     def __str__(self):
-        return '{store} at {location} has a score of {score} and is {dist} miles from the last stop.'.format(store=self.store, location=self.location, score=self.score, dist=self.dist_from_prev)
-
-    def get_string(self):
-        return '{store} at {location} has a score of {score} and is {dist} miles from the last stop.'.format(store=self.store, location=self.location, score=self.score, dist=self.dist_from_prev)
+        return '{store} at {location} has a score of {score} and is {dist:0.2f} miles from the last stop.'.format(store=self.store, location=self.location, score=self.score, dist=self.dist_from_prev)
