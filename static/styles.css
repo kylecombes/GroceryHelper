@@ -26,8 +26,15 @@ h1 {
    color: tomato;
  }
 
+ .header-container {
+     width: 100%;
+     overflow: auto;
+     padding: 1em;
+ }
+
  .header {
-     margin: 1em 4em;
+     margin: 1em auto;
+     max-width: 1500px;
  }
 
 /* Add a black background color to the top navigation */
@@ -76,6 +83,8 @@ line-height: 30px;
 #content{
   margin: auto;
     width: 80%;
+    max-width: 1500px;
+    padding: 1em;
 }
 #center{
   text-align: center;
