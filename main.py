@@ -1,7 +1,7 @@
 from geolocation import Geolocation
 from database import StoreInfoAccessor
 from models import Location
-from planning import TripPlan, TripStop, TripPlanner
+from planning import TripPlanner
 from flask import Flask
 
 app = Flask(__name__)
