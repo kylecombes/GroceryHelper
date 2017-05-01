@@ -6,7 +6,7 @@ else:
 
     KEY_GEO = os.environ["KEY_GEO"]
     KEY_DIST = os.environ["KEY_DIST"]
-    KEY_DIRECT = os.environ[ "KEY_DIRECT"]
+    KEY_DIRECT = os.environ["KEY_DIRECT"]
 
     RECIPE_API_KEY = os.environ['RECIPE_API_KEY']
     YUMMLY_API_KEY = os.environ['YUMMLY_API_KEY']
