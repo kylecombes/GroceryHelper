@@ -1,10 +1,13 @@
-from keys import *
 import untangle
 import requests
 from xml.sax._exceptions import SAXParseException
 import threading
 from database import FoodItemInfoAccessor
 import random
+import os
+
+if 'MAPS_API_KEY' not in os.environ:  # Don't run on Heroku
+    from keys import *
 
 
 class StoreItemFetcher:
@@ -80,7 +83,7 @@ class StoreItemFetcher:
         num_groups = len(store_groups)
         num_items = len(foods)
         added_count = 0
-        interval = random.randint(0, int(num_items/6)) + 1
+        interval = int(num_items/6)  #random.randint(0, int(num_items/6)) + 1
         for i in range(0, num_items - interval, interval):
             food_item = foods[i]
             group = food_item.id % num_groups

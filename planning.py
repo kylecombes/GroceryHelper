@@ -172,7 +172,7 @@ class TripPlan:
             :param first_stop: the first stop in the trip
             :return a new TripPlan with the same attributes as the old one
         """
-        first_stop_new = TripStop(first_stop.prev_stop, first_stop.store, first_stop.store.location, first_stop.dist_from_prev, prev_stop.items_to_get, first_stop.score)
+        first_stop_new = TripStop(None, first_stop.store, first_stop.store.location, first_stop.dist_from_prev, first_stop.items_to_get, first_stop.score)
         prev_stop = first_stop_new
         while prev_stop.next_stop:
             prev_stop.next_stop = TripStop(prev_stop.prev_stop, prev_stop.store, prev_stop.store.location, prev_stop.dist_from_prev, prev_stop.items_to_get, prev_stop.score)
