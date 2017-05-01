@@ -15,12 +15,6 @@ PORT = int(os.environ.get('PORT', 5000))
 
 app = Flask(__name__)
 
-# if 'MAPS_API_KEY' not in os.environ and not os.path.exists('/app/grocery_db.sqlite'):  # On Heroku without db
-#     print('Downloading grocery UPC database...')
-#     import urllib.request  # Very jank way to get around Heroku not supporting SQLite. Really need to convert to PostgreSQL
-#     urllib.request.urlretrieve('http://kylecombes.com/grocery_db.sqlite', 'grocery_db.sqlite')
-
-
 @app.route('/')
 def starting_page():
     return render_template('home.html')
@@ -80,7 +74,7 @@ def input():
 def getting_food(location=None,stops=None,cuisine=None, src=None):
   error = None
   if request.method == 'POST':
-      if request.form['type'] and request.form['housenum'] and request.form['street'] and request.form['city'] and request.form['state'] and request.form['zip']:
+      if request.form['type'] and request.form['street'] and request.form['city'] and request.form['state'] and request.form['zip']:
 
             zipcode = int(request.form['zip'])
             cuisine = str(request.form['type'])
@@ -125,7 +119,7 @@ def getting_food(location=None,stops=None,cuisine=None, src=None):
 def getting_address(location=None, stops=None, src=None):
 
     if request.method == 'POST':
-        if request.form['ingredients'] and request.form['housenum'] and request.form['street'] and request.form['city'] and request.form['state'] and request.form['zip']:
+        if request.form['ingredients'] and request.form['street'] and request.form['city'] and request.form['state'] and request.form['zip']:
 
             zipcode = int(request.form['zip'])
             street_address = str(request.form['street'])
