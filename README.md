@@ -4,6 +4,11 @@
 Grocery Helper assists you in planning your grocery shopping. Given a list of items and a location, it will tell you
 which stores nearby carry the items and what the best itinerary is to go about purchasing them.
 
+## Project Website
+
+More details on this project can be found [here](http://groceryhelper-sd2017.herokuapp.com/). (The planner is not quite
+live yet, so just steer clear of the _Get Started!_ tab.)
+
 ## Setup Instructions
 
 #### Dependencies
