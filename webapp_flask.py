@@ -15,9 +15,6 @@ PORT = int(os.environ.get('PORT', 5000))
 
 app = Flask(__name__)
 
-if not os.path.exists(DatabaseAccessor.DATABASE_PATH):
-    import setup
-
 @app.route('/')
 #def hello_world():
 def starting_page():
