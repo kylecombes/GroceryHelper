@@ -5,7 +5,7 @@ webapp for GroceryHelper Project Flask Code
 from flask import Flask
 import os
 from geolocation import Geolocation
-from flask import render_template, request
+from flask import render_template, request, send_from_directory
 from models import Location
 from main import find_routes_given_ingredients
 from database import DatabaseAccessor
@@ -15,16 +15,20 @@ PORT = int(os.environ.get('PORT', 5000))
 
 app = Flask(__name__)
 
-if 'MAPS_API_KEY' not in os.environ and not os.path.exists('/app/grocery_db.sqlite'):  # On Heroku without db
-    print('Downloading grocery UPC database...')
-    import urllib.request  # Very jank way to get around Heroku not supporting SQLite. Really need to convert to PostgreSQL
-    urllib.request.urlretrieve('http://kylecombes.com/grocery_db.sqlite', 'grocery_db.sqlite')
+# if 'MAPS_API_KEY' not in os.environ and not os.path.exists('/app/grocery_db.sqlite'):  # On Heroku without db
+#     print('Downloading grocery UPC database...')
+#     import urllib.request  # Very jank way to get around Heroku not supporting SQLite. Really need to convert to PostgreSQL
+#     urllib.request.urlretrieve('http://kylecombes.com/grocery_db.sqlite', 'grocery_db.sqlite')
 
 
 @app.route('/')
 #def hello_world():
 def starting_page():
     return render_template('about.html')
+
+@app.route('/sample', methods=['GET','POST'])
+def webapp_sample():
+    return send_from_directory('static', 'sample.html')
 
 @app.route('/app', methods=['GET','POST'])
 def webapp():
