@@ -4,8 +4,10 @@ import json
 import math
 from urllib.parse import urlencode
 from urllib.request import urlopen
+import os
 
-# from keys import *
+if 'MAPS_API_KEY' not in os.environ:  # Don't run on Heroku
+    from keys import *
 
 
 class Geolocation:
@@ -47,7 +49,18 @@ class Geolocation:
 
         params_url = urlencode({'address':place_name, 'key':KEY_GEO})
         url = Geolocation.GMAPS_BASE_URL + params_url
-        first_result = Geolocation.__get_json(url)['results'][0]
+        try_count = 0
+        while try_count < 3:
+            json = Geolocation.__get_json(url)
+            if json['status'] != 'ZERO_RESULTS':
+                break
+            try_count += 1
+        try:
+            first_result = json['results'][0]
+        except IndexError as e:
+            print('JSON:', json)
+            raise e
+
         return first_result['geometry']['location']['lat'], first_result['geometry']['location']['lng']
 
     @staticmethod
