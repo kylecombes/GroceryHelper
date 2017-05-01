@@ -18,10 +18,10 @@ def find_routes_given_ingredients(user_location, ingredients):
     planner = TripPlanner(user_location)
     needed_items = ingredients.split(',')
     needed_items = [item.strip() for item in needed_items]
-    print(needed_items)
+    print('Planning route from {} to get {}'.format(user_location, ', '.join(needed_items)))
     stores = get_stores_near_me(user_location, 20, 10)
 
-    plans = planner.find_routes(needed_items, stores, 20)
+    plans = planner.find_routes(needed_items, stores, 20, False)
 
     return plans
 
@@ -33,11 +33,7 @@ def get_stores_near_me(my_loc, radius, number):
         :param number: maximum number of stores to return
     """
     sia = StoreInfoAccessor()
-    try:
-        stores = sia.get_stores_in_zip_range(my_loc.zipcode-200, my_loc.zipcode+200)
-    finally:
-        # Close the database
-        sia.close()
+    stores = sia.get_stores_in_zip_range(my_loc.zipcode-200, my_loc.zipcode+200)
 
     stores_in_range = []
     euc_dists = {}
