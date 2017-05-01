@@ -4,21 +4,9 @@ webapp for GroceryHelper Project Flask Code
 
 from flask import Flask
 import os
-import json
-import math
-from pprint import pprint
-from urllib.parse import urlencode
-from urllib.request import urlopen
-
-from keys import *
-
 from geolocation import Geolocation
-from database import StoreInfoAccessor
-from models import Location, Store
-from flask import render_template
-from flask import request
+from flask import render_template, request
 from models import Location
-from planning import TripPlan, TripStop
 from main import find_routes_given_ingredients
 
 HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
@@ -34,25 +22,25 @@ def starting_page():
 @app.route('/app', methods=['GET','POST'])
 def webapp():
     if request.method == 'POST':
-        #if request.form['index.html']:
+        #if request.form['get_started.html']:
         return redirect(url_for('index'))
-    return render_template('index.html')
+    return render_template('get_started.html')
     #'The about page'
 
 @app.route('/about_project', methods=['GET','POST'])
 def webapp_about():
     if request.method == 'POST':
-        #if request.form['index.html']:
+        #if request.form['get_started.html']:
         return redirect(url_for('about_team'))
-    return render_template('about_team.html')
+    return render_template('about_project.html')
     #'The about page'
 
 @app.route('/about_us', methods=['GET','POST'])
 def webapp_about_us():
     if request.method == 'POST':
-        #if request.form['index.html']:
+        #if request.form['get_started.html']:
         return redirect(url_for('about_us'))
-    return render_template('about_us.html')
+    return render_template('about_team.html')
     #'The about page'
 
 @app.route('/login', methods=['GET','POST'])
@@ -64,7 +52,7 @@ def login():
            return render_template('address_input.html')
        else:
            error = None
-           return render_template('index.html')
+           return render_template('get_started.html')
 
 @app.route('/input', methods=['GET','POST'])
 def input():
@@ -75,7 +63,7 @@ def input():
           return render_template('food_input.html')
       else:
           error = None
-          return render_template('index.html')
+          return render_template('get_started.html')
 
 
 @app.route('/food', methods=['GET','POST'])
@@ -114,10 +102,9 @@ def getting_food(location=None,stops=None,cuisine=None, src=None):
 
 @app.route('/address', methods=['GET','POST'])
 def getting_address(location=None, stops=None, src=None):
-    error = None
+
     if request.method == 'POST':
         if request.form['ingredients'] and request.form['housenum'] and request.form['street'] and request.form['city'] and request.form['state'] and request.form['zip']:
-            error = None
 
             zipcode = int(request.form['zip'])
             street_address = str(request.form['housenum'] + ' ' + request.form['street'])
@@ -125,27 +112,28 @@ def getting_address(location=None, stops=None, src=None):
             state = str(request.form['state'])
 
             ingredients = str(request.form['ingredients'])
-            # ingredients = ingredients.split(" ")
-            # ingredients = ", ".join(ingredients)
 
             loc = Location(street_address, city, state, zipcode)
-            results = find_routes_given_ingredients(loc, ingredients)
+            did_find_items, results = find_routes_given_ingredients(loc, ingredients)
 
-            if len(results) > 0:
-                src = Geolocation.get_directions(loc, stops)
+            print('Found {} possible routes'.format(len(results)))
 
+            if not did_find_items:
+                stops_html = '<p>Could not find item "{}" anywhere.'.format(results)
+
+            elif len(results) > 0:
                 stops = results[0].get_stops_as_list()
+
                 num_stops = len(stops)
                 if num_stops > 0:
+                    src = Geolocation.get_directions(loc, stops)
                     stops_html = ''
-                    for i in range(num_stops):
-                        print('Looking at stop ', stops[i])
+                    for i in range(1, num_stops):
                         stop_html = get_html_for_stop(stops[i], i)
-                        if i < 2:
-                            print(stop_html)
-                        stops_html = '{}{}\n'.format(stops_html, stop_html)
+                        stops_html = '{}{}\n'.format(stops_html, stop_html)  # Append stop HTML
                 else:
                     stops_html = '<p>No viable routes found</p>'
+                    src = ''
             else:
                 stops_html = '<p>No viable routes found</p>'
 
@@ -153,23 +141,29 @@ def getting_address(location=None, stops=None, src=None):
             return render_template('confirm.html', location=loc, stops=stops_html, src=src)
 
         else:
-          error = None
           return render_template('address_input.html')
 
 
 def get_html_for_stop(stop, i):
-    name = stop.store.name if stop.store else 'Home'
+    if stop.store:
+        name = stop.store.name
+        items = stop.get_items_as_string()
+    else:
+        name = 'Home'
+        items = ''
     html = '<div class="trip-stop">' \
            '<span class="stop-number">{stopnum}</span>' \
            '<div class="store-info">'\
            '<span class="store-name">{name}</span>' \
            '<span class="store-location">{location}</span>' \
+           '<div class="items-at-store">{items}</div>' \
            '</div>' \
            '<span class="stop-dist">{dist:0.1f} miles</span>' \
            '</div>' \
            .format(
                 stopnum=i,
                 name=name,
+                items=items,
                 location=stop.location,
                 dist=stop.dist_from_prev
            )

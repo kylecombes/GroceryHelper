@@ -47,16 +47,15 @@ class Store:
     location = None
     items = None
 
-    def __init__(self, store_id, name, location, row_id=None, items = None):
+    def __init__(self, store_id, name, location, row_id=None, items=None):
         self.id = row_id
-        self.store_id = store_id
+        self.store_id = int('0x'+store_id, 16) if isinstance(store_id, str) else store_id
         self.name = name
         self.location = location
         if not items:
             self.items = []
         else:
             self.items = items
-
 
     def __str__(self):
         return '(ID: {0}) {1} at {2}'.format(self.store_id, self.name, self.location)
@@ -73,3 +72,24 @@ class FoodItem:
     item_id = None
     image_url = None
     name = None
+
+    def __init__(self, item_id, name, aisle, category, description, image_url, row_id=None):
+        """
+        Initializes a FoodItem object.
+        :param item_id: the Supermarket API item ID or UPC code - string
+        :param name: the name of the item - string
+        :param aisle: the aisle number the item can be found in - string
+        :param category: the category the item belongs to - string
+        :param description: a description of the item - string
+        :param image_url: a URL at which an image of this item can be found - string
+        """
+        self.id = row_id
+        self.item_id = item_id
+        self.name = name
+        self.aisle = aisle
+        self.category = category
+        self.description = description
+        self.image_url = image_url
+
+    def __str__(self):
+        return self.name

@@ -261,3 +261,73 @@ class LocationInfoAccessor(DatabaseAccessor):
         if new_row_id:
             location.id = new_row_id
         return new_row_id
+
+
+class FoodItemInfoAccessor(DatabaseAccessor):
+    def __init__(self, db=None):
+        super().__init__(db)
+
+    def get_food_item_by_row_id(self, row_id):
+        """ Gets the information for a food item.
+        :param row_id: the unique database row ID for the food item - int
+        :return: a FoodItem object containing all the food item's information - FoodItem
+        """
+        sql = 'SELECT * FROM {} WHERE id={}'.format(FoodItem.DB_TABLE_NAME, row_id)
+        row = self._query_db(sql, (), True)
+        return self.__parse_food_item(row)
+
+    def get_food_item_by_item_id(self, item_id):
+        """ Gets the information for a food item.
+        :param item_id: the unique Supermarket API item ID or the UPC code - string
+        :return: a FoodItem object containing all the food item's information - FoodItem
+        """
+        sql = 'SELECT * FROM {} WHERE id={}'.format(FoodItem.DB_TABLE_NAME, item_id)
+        row = self._query_db(sql, (), True)
+        return self.__parse_food_item(row)
+
+    def get_foods_by_name(self, name):
+        """
+        Queries the database for all of the items whose name contains the given words.
+        :param name: the word(s) to use when searching for a matching item name - string
+        :return: 
+        """
+        sql = 'SELECT * FROM {} WHERE name LIKE "%{}%"'.format(FoodItem.DB_TABLE_NAME, name)
+        rows = self._query_db(sql, ())
+        res = list()
+        for row in rows:
+            res.append(self.__parse_food_item(row))
+        return res
+
+
+    @staticmethod
+    def __parse_food_item(row):
+        """ Internal method for parsing the results of a database query and saving it into a Location object """
+        item = FoodItem(
+            row['item_id'],
+            row['name'],
+            row['aisle'],
+            row['category'],
+            row['description'],
+            row['image_url'],
+            row['id']
+        )
+        return item
+
+    def save_item(self, item):
+        """
+        Saves the item to the database
+        :param item: the item to be saved - FoodItem
+        """
+        data = {
+            'item_id': item.item_id,
+            'name': item.name,
+        }
+        #     'aisle': item.aisle,
+        #     'category': item.category,
+        #     'description': item.description,
+        #     'image_url': item.image_url
+        # }
+        new_row_id = self._save(item.DB_TABLE_NAME, data, item.id)
+        if new_row_id:
+            item.id = new_row_id
+        return new_row_id
