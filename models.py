@@ -49,7 +49,7 @@ class Store:
 
     def __init__(self, store_id, name, location, row_id=None, items=None):
         self.id = row_id
-        self.store_id = int('0x'+store_id, 16) if isinstance(store_id, str) else store_id
+        self.store_id = store_id
         self.name = name
         self.location = location
         if not items:

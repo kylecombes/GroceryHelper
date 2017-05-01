@@ -291,6 +291,9 @@ class FoodItemInfoAccessor(DatabaseAccessor):
         :param name: the word(s) to use when searching for a matching item name - string
         :return: 
         """
+        # TODO Use a more robust method for string escaping and SQL injection prevention
+        name = name.replace("'", "''")
+        name = name.replace('"', '""')
         sql = 'SELECT * FROM {} WHERE name LIKE "%{}%"'.format(FoodItem.DB_TABLE_NAME, name)
         rows = self._query_db(sql, ())
         res = list()

@@ -8,11 +8,15 @@ from geolocation import Geolocation
 from flask import render_template, request
 from models import Location
 from main import find_routes_given_ingredients
+from database import DatabaseAccessor
 
 HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
 PORT = int(os.environ.get('PORT', 5000))
 
 app = Flask(__name__)
+
+if not os.path.exists(DatabaseAccessor.DATABASE_PATH):
+    import setup
 
 @app.route('/')
 #def hello_world():

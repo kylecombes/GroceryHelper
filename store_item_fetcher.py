@@ -66,7 +66,11 @@ class StoreItemFetcher:
         store_groups = dict()
         mod = int(store_count / 3) + 1
         for store in stores:
-            group_num = store.store_id % mod
+            try:  # See if the store ID is hex (most are)
+                store_id = int('0x' + store.store_id, 16)
+                group_num = store_id % mod
+            except ValueError:  # If not hex, just assign it to group 0
+                group_num = 0
             if group_num not in store_groups:
                 store_groups[group_num] = list()
             store_groups[group_num].append(store)
