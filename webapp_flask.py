@@ -18,7 +18,7 @@ app = Flask(__name__)
 if 'MAPS_API_KEY' not in os.environ and not os.path.exists('/app/grocery_db.sqlite'):  # On Heroku without db
     print('Downloading grocery UPC database...')
     import urllib.request  # Very jank way to get around Heroku not supporting SQLite. Really need to convert to PostgreSQL
-    urllib.request.urlretrieve('http://kylecombes.com/grocer_db.sqlite', 'grocery_db.sqlite')
+    urllib.request.urlretrieve('http://kylecombes.com/grocery_db.sqlite', 'grocery_db.sqlite')
 
 
 @app.route('/')
