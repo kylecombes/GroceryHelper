@@ -35,6 +35,7 @@ h1 {
  .header {
      margin: 1em auto;
      max-width: 1500px;
+     width: 90%;
  }
 
 /* Add a black background color to the top navigation */
