@@ -3,11 +3,8 @@ import requests
 from xml.sax._exceptions import SAXParseException
 import threading
 from database import FoodItemInfoAccessor
-import random
-import os
-
-if 'MAPS_API_KEY' not in os.environ:  # Don't run on Heroku
-    from keys import *
+# import random
+from import_keys import *
 
 
 class StoreItemFetcher:

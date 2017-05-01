@@ -4,10 +4,7 @@ import json
 import math
 from urllib.parse import urlencode
 from urllib.request import urlopen
-import os
-
-if 'MAPS_API_KEY' not in os.environ:  # Don't run on Heroku
-    from keys import *
+from import_keys import *
 
 
 class Geolocation:

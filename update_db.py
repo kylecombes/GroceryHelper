@@ -10,11 +10,8 @@ import math
 import threading
 import time
 import argparse
-import os
 from flask import Flask
-
-if 'MAPS_API_KEY' not in os.environ:  # Don't run on Heroku
-    from keys import *
+from import_keys import *
 
 app = Flask(__name__)
 

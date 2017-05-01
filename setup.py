@@ -4,6 +4,6 @@ StoreDbUpdater(2000, 3000, 100)
 print('Done downloading stores\n')
 
 print('Importing grocery UPC data...')
-import food_csv_import
+import food_db_import
 print('Done importing grocery UPC data')
 print('App is ready to use')
