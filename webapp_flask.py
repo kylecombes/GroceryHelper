@@ -22,7 +22,6 @@ app = Flask(__name__)
 
 
 @app.route('/')
-#def hello_world():
 def starting_page():
     return render_template('home.html')
 
@@ -82,31 +81,42 @@ def getting_food(location=None,stops=None,cuisine=None, src=None):
   error = None
   if request.method == 'POST':
       if request.form['type'] and request.form['housenum'] and request.form['street'] and request.form['city'] and request.form['state'] and request.form['zip']:
-          error = None
 
-          zipcode = int(request.form['zip'])
-          cuisine = str(request.form['type'])
-          street_address = str(request.form['housenum'] + ' ' + request.form['street'])
-          city = str(request.form['city'])
-          state = str(request.form['state'])
-          # format ingredients
-          ingredients = request.form['ingredients']
-          ingredients = ingredients.split(" ")
-          ingredients = ", ".join(ingredients) #for word in ingredients])
-          #print(ingredients)
+            zipcode = int(request.form['zip'])
+            cuisine = str(request.form['type'])
+            street_address = str(request.form['street'])
+            city = str(request.form['city'])
+            state = str(request.form['state'])
+            # format ingredients
+            ingredients = request.form['ingredients']
+            ingredients = ingredients.split(" ")
+            ingredients = ", ".join(ingredients)
 
-          loc = Location(street_address, city, state, zipcode)
-          #print(loc)
-          stops = find_routes_given_ingredients(loc, ingredients)
-          src = Geolocation.get_directions(loc, stops)
+            loc = Location(street_address, city, state, zipcode)
+            did_find_items, results = find_routes_given_ingredients(loc, ingredients)
 
-          stops_print = []
-          for stop in stops:
-              stops_print.append(str(stop))
-              stops_print = stops_print.split(',')
-          print(stops_print)
+            print('Found {} possible routes'.format(len(results)))
 
-          return render_template('confirm2.html', location=loc, stops=stops_print,cuisine=cuisine, src=src)
+            if not did_find_items:
+                stops_html = '<p>Could not find item "{}" anywhere.'.format(results)
+
+            elif len(results) > 0:
+                stops = results[0].get_stops_as_list()
+
+                num_stops = len(stops)
+                if num_stops > 0:
+                    src = Geolocation.get_directions(loc, stops)
+                    stops_html = ''
+                    for i in range(1, num_stops):
+                        stop_html = get_html_for_stop(stops[i], i)
+                        stops_html = '{}{}\n'.format(stops_html, stop_html)  # Append stop HTML
+                else:
+                    stops_html = '<p>No viable routes found</p>'
+                    src = ''
+            else:
+                stops_html = '<p>No viable routes found</p>'
+
+            return render_template('results_cuisine.html', location=loc, stops=stops_html,cuisine=cuisine, src=src)
 
       else:
           return render_template('food_input.html')
@@ -118,7 +128,7 @@ def getting_address(location=None, stops=None, src=None):
         if request.form['ingredients'] and request.form['housenum'] and request.form['street'] and request.form['city'] and request.form['state'] and request.form['zip']:
 
             zipcode = int(request.form['zip'])
-            street_address = str(request.form['housenum'] + ' ' + request.form['street'])
+            street_address = str(request.form['street'])
             city = str(request.form['city'])
             state = str(request.form['state'])
 
@@ -149,7 +159,7 @@ def getting_address(location=None, stops=None, src=None):
                 stops_html = '<p>No viable routes found</p>'
 
 
-            return render_template('confirm.html', location=loc, stops=stops_html, src=src)
+            return render_template('results_manual.html', location=loc, stops=stops_html, src=src)
 
         else:
           return render_template('address_input.html')

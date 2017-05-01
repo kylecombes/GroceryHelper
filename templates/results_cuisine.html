@@ -10,6 +10,7 @@
         </title>
     </head>
     <body>
+
 <div class="header-container">
       <div class="header">
          <h1>GroceryHelper</h1>
@@ -24,35 +25,29 @@
           <a href="/sample">Sample</a>
           <a href="/about_project">Learn more</a>
           <a href="/about_us">Meet the team</a>
+
        </div>
 
     </div>
 </div>
     <div id = "content">
-      <h1>The shit works</h1>
 
-        <p>{{cuisine}}
-        <p>{{location}}</p>
-        <p>{{stops}}</p>
-      </div>
-
-      <h1>Your Grocery Shopping Plan</h1>
+      <h2>Your Grocery Shopping Plan</h2>
       <body>
         <p>You wanted to have {{cuisine}} for dinner</p>
         <p>From your location, {{location}}, travel to the following stores.</p>
         <!--p>{{stops}}</p-->
 
-        {% for stops in stops_print %}
-        <div class=flash>{{ stop }}</div>
-        {% endfor %}
+        <div class="stops-container">{{stops|safe}}</div>
         {% block body %}{% endblock %}
 
-      <iframe src="{{src|safe}}" allowfullscreen
-        width="600"
-        height="450"
-        frameborder="0" style="border:0">
-      </iframe>
-        <p>You will aquire the following ingredients: {{ingredients}}.</p>
+        <div class="map-container">
+        <iframe src="{{src|safe}}" allowfullscreen
+          width="600"
+          height="450"
+          frameborder="0" style="border:0">
+        </iframe>
+        </div>
 
     </body>
 </html>
