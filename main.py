@@ -11,7 +11,7 @@ def find_routes_given_ingredients(user_location, ingredients):
     """ Finds the best driving routes for the user to purchase
         all the needed ingredients.
         :param user_location: the user's starting location - Location
-        :param ingredients: the ingredients the user needs - list
+        :param ingredients: a comma-separated list of the ingredients the user needs - string
         :return a list of routes, sorted best to worst
     """
     Geolocation.load_lat_long_for_location(user_location)

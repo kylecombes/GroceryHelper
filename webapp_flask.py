@@ -83,8 +83,6 @@ def getting_food(location=None,stops=None,cuisine=None, src=None):
             state = str(request.form['state'])
             # format ingredients
             ingredients = request.form['ingredients']
-            ingredients = ingredients.split(" ")
-            ingredients = ", ".join(ingredients)
 
             loc = Location(street_address, city, state, zipcode)
             did_find_items, results = find_routes_given_ingredients(loc, ingredients)
