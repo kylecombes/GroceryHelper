@@ -24,7 +24,7 @@ app = Flask(__name__)
 @app.route('/')
 #def hello_world():
 def starting_page():
-    return render_template('about.html')
+    return render_template('home.html')
 
 @app.route('/sample', methods=['GET','POST'])
 def webapp_sample():

@@ -1,0 +1,65 @@
+
+         <title>GroceryHelper</title>
+         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Nunito" />
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Didact+Gothic" />
+     </head>
+ <body>
+<div class="header-container">
+  <div class="header">
+     <h1>Home | GroceryHelper</h1>
+
+    <div class = "topnav" id = "myTopnav">
+
+      <!--<ul>
+         <li><a href="http://127.0.0.1:5000/app">Get started!</a></li>
+         <li><a href="http://127.0.0.1:5000/about_team">Learn more</a></li>
+      </ul> -->
+          <a href="/">Home</a>
+          <a href="/sample">Sample</a>
+          <a href="/about_project">Learn more</a>
+          <a href="/about_us">Meet the team</a>
+   </div>
+  </div>
+</div>
+  <div id = "content">
+     <h1> Welcome to GroceryHelper!</h1>
+     <p>Feel free to navigate through the site using the navigation bar at the top of the page to see a sample output
+       (full demo coming soon) and to learn more about the project and out team!</p>
+
+     <h2> The Big Idea of GroceryHelper</h2>
+
+     <p>Grocery shopping can often become a long and cumbersome process. Often times one store will not have what you need
+       which requires you to travel to multiple in order to acquire all of the groceries that you need.
+       GroceryHelper is a tool to make grocery shopping quicker and easier. When
+       ingredients and an origin location are inputted, our GroceryHelper web app
+       will output a shopping plan which includes: a list of stores to visit in
+       sequential order, a map with directions to each store and back to your origin,
+       and a list of which ingredients to buy at each store.</p>
+
+      <h2>Setting Up GrocerHelper</h2>
+
+      <h4>Getting the Source and Installing Dependencies</h4>
+      <p>
+          In order to run GroceryHelper, you'll need Python 3 installed as well as a few dependencies:
+          <ul>
+              <li>Flask</li>
+              <li>untangle</li>
+              <li>requests</li>
+          </ul>
+          <p>If you already have Python 3 installed, just run the following command in Terminal: <strong>pip3 install flask untangle requests</strong>.
+              Once that is installed, clone the <a href="https://github.com/kylecombes/GroceryHelper">Git repo</a>.</p>
+
+      <h4>Downloading the Store and Item Data</h4>
+      <p>Once you have the source code and the necessary dependencies installed, you'll next need to download all of the stores in your area.
+      To do this, simply run (in Terminal) <strong>python3 setup.py</strong>.</p>
+      <p>When that has finished, run <strong>python3 webapp_flask.py</strong> to launch the app! Then visit
+          <a href="http://127.0.0.1:5000/">http://127.0.0.1:5000/</a> in your web browser.
+      </p>
+
+      <img src="{{ url_for('static', filename='cow.jpg') }}" id = "bessie" style="width:600px;height:400px;">
+
+ </div>
+
+ </body>
+   </html>
