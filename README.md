@@ -16,6 +16,7 @@ live yet, so just steer clear of the _Get Started!_ tab.)
 In order to run GroceryHelper on your own computer, you'll need the following Python 3 modules installed:
   * flask
   * untangle
+  * requests
 
 #### Setting Up the Database
 
