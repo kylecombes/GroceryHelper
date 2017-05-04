@@ -114,15 +114,15 @@ class DistanceMapper:
     dists = {}
 
     def load_distances(self, origins, destinations):
-
-        # Debugging
-        for i in range(len(origins)-1):
-            origin = origins[i]
-            for j in range(i+1,len(origins)):
-                dest = destinations[j]
-                dist = Geolocation.get_euclidean_dist(origin, dest)
-                self.add_dist(origin, dest, dist)
-        return
+        #
+        # # Debugging
+        # for i in range(len(origins)-1):
+        #     origin = origins[i]
+        #     for j in range(i+1,len(origins)):
+        #         dest = destinations[j]
+        #         dist = Geolocation.get_euclidean_dist(origin, dest)
+        #         self.add_dist(origin, dest, dist)
+        # return
 
         # Use the Google Distance Matrix API to get the driving distances between all the locations
         dists = Geolocation.get_travel_distances(origins, destinations)
