@@ -33,3 +33,6 @@ The Architecture Review Preparation and Framing document can be found [here](doc
 
 ## Architecture Review Reflection and Synthesis
 Notes and reflection from the Architecure Review can be found [here](documentation/ArchReviewSynth.md).
+
+## Link to Poster
+[poster](https://drive.google.com/open?id=0B33rktaN0ltBUWNONmhKMDRNLW8)
