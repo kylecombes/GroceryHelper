@@ -16,6 +16,7 @@ class Geolocation:
 
     @staticmethod
     def load_lat_long_for_location(location):
+        """ Loads the coordinates (latitude and longitude) into the Location object by using the Google Maps Geocoding API. """
         lat_long = Geolocation.__get_lat_long(location.__str__())
         location.latitude = lat_long[0]
         location.longitude = lat_long[1]
@@ -90,7 +91,12 @@ class Geolocation:
         return datadist
 
     @staticmethod
-    def get_directions(origin, stops):
+    def get_directions_request_url(origin, stops):
+        """ Creates a URL for requesting directions from Google Maps.
+        :param origin: the starting location - Location
+        :param stops: the places to travel to successively - [Location]
+        :return: a URL for getting directions from Google Maps
+        """
         origin_str = '{street},{city},{state} {zip}'\
             .format(street=origin.street_address, city=origin.city, state=origin.state, zip=origin.zipcode)
         waypoints = ''
@@ -102,6 +108,10 @@ class Geolocation:
 
     @staticmethod
     def format_location_for_google(location):
+        """ Formats a Location object as a string for querying Google Maps.
+        :param location: the Location object to use - Location
+        :return: a URL-friendly string representation (no spaces, + instead) of the address - string
+        """
         street = location.street_address.replace(' ','+')
         city = location.city.replace(' ','+')
         return '{street},{city},{state}+{zip}'\
@@ -114,16 +124,11 @@ class DistanceMapper:
     dists = {}
 
     def load_distances(self, origins, destinations):
-        #
-        # # Debugging
-        # for i in range(len(origins)-1):
-        #     origin = origins[i]
-        #     for j in range(i+1,len(origins)):
-        #         dest = destinations[j]
-        #         dist = Geolocation.get_euclidean_dist(origin, dest)
-        #         self.add_dist(origin, dest, dist)
-        # return
-
+        """ Gets the driving distances between each origin and all the destinations.
+            :param origins: a list of all the locations to calculate driving distances from - [Location]
+            :param destinations: a list of all the locations to calculate driving distances to - [Location]
+            :return a dictionary mapping each origin to each destination (ex: dict[origin][dest] = dist)
+        """
         # Use the Google Distance Matrix API to get the driving distances between all the locations
         dists = Geolocation.get_travel_distances(origins, destinations)
         # Convert the data from JSON to dictionaries indexed by locations
@@ -138,6 +143,7 @@ class DistanceMapper:
                 if dest != origin:  # Don't store a path from a location to itself
                     dist = cols[j]['distance']['value']/1609  # Convert meters to miles
                     self.add_dist(origin, dest, dist)
+        return self.dists
 
     def add_dist(self, origin, destination, dist):
         """ Saves a distance calculation between two locations.

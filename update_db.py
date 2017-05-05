@@ -23,6 +23,11 @@ DEFAULT_WORKERS = 100
 class StoreDbUpdater:
 
     def __init__(self, start_zip, end_zip, worker_count):
+        """ Downloads all the stores in the given ZIP range.
+            :param start_zip: the starting ZIP code - int
+            :param end_zip: the ending ZIP code (also scanned) - int
+            :param worker_count: the number of simultaneous requests to make
+        """
 
         with app.app_context():
             # Create a database if one does not already exist
@@ -137,7 +142,7 @@ class StoresDS:
         for store in stores:
             self.add_store(store)
 
-
+""" Make it so we can run this script and pass parameters from the command line """
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     # Define the named (optional) arguments that can be used when running this command

@@ -6,8 +6,7 @@ which stores nearby carry the items and what the best itinerary is to go about p
 
 ## Project Website
 
-More details on this project can be found [here](http://groceryhelper-sd2017.herokuapp.com/). (The planner is not quite
-live yet, so just steer clear of the _Get Started!_ tab.)
+More details on this project can be found [here](http://groceryhelper-sd2017.herokuapp.com/).
 
 ## Setup Instructions
 
@@ -18,15 +17,27 @@ In order to run GroceryHelper on your own computer, you'll need the following Py
   * untangle
   * requests
 
+#### API Keys
+
+Then you'll need to create a file called `keys.py` in your project root and put the necessary API keys in it. For the sake
+of saving the SoftDes grading team the trouble of manually getting all of the keys, you can simply copy the contents
+of [this Google Doc](https://docs.google.com/document/d/1CoLgeVISs_3jkKawN0QK7c0uk9-bWKhPH5vhuYr56XE/edit?usp=sharing)
+ and paste it into `keys.py`. (Note: The Doc will be made private again after June 1, 2017.)
+
 #### Setting Up the Database
 
-Then, in preparation for running the web app, you'll need to update the nearby stores database. To do that, run
-`python3 update_db.py`. You can use the optional arguments`--start-zip` and `--end-zip` to specify the range of ZIP codes
+In preparation for running the web app, you'll need to create the stores and items database and download the nearby stores
+data. To do that, just run `python3 setup.py`. It will download and install all the necessary data.
+
+By default it will just download stores in Massachusetts. If you want to add a different ZIP range, simply run
+`python3 update_db.py`, using the optional arguments`--start-zip` and `--end-zip` to specify the range of ZIP codes
 to pull stores for. Using the argument `--workers` will set the number of simultaneous requests to make while doing so.
 Running the script without any arguments is the same as running `python3 update_db.py --start-zip 2000 --end-zip 3000 --workers 100`.
 
-Once you've run the above script, the web app will function properly. To add new areas to the web app, simple rerun the
-script with a new ZIP range.
+#### Launching the Web App
+
+To actually launch the web app, simply run `python3 webapp_flask.py`. Then visit [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+in your web browser. Click the "Get Started" tab to a
 
 ## Architecture Review
 The Architecture Review Preparation and Framing document can be found [here](documentation/ArchReviewPrepFraming.md).

@@ -1,3 +1,5 @@
+""" Sets up the database and downloads all the necessary data to get started. """
+
 from update_db import StoreDbUpdater
 print('Downloading stores in Boston area...')
 StoreDbUpdater(2000, 3000, 100)

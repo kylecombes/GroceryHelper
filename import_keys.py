@@ -1,7 +1,9 @@
+""" Imports the keys from the appropriate place, depending on if the code is running on Heroku or a local machine. """
+
 import os
-if 'MAPS_API_KEY' not in os.environ:  # Don't run on Heroku
+if 'MAPS_API_KEY' not in os.environ:  # Local machine
     from keys import *
-else:
+else:  # Heroku
     SUPERMARKET_API_KEY = os.environ['SUPERMARKET_API_KEY']
 
     KEY_GEO = os.environ["KEY_GEO"]

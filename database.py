@@ -10,6 +10,9 @@ class DatabaseAccessor:
     DATABASE_PATH = '{}/{}'.format(os.path.dirname(os.path.realpath(__file__)), FILENAME)
 
     def __init__(self, db=None):
+        """ Instantiates a new DatabaseAccessor object.
+            :param db: (optional) an existing connection to the database to use, rather than create a new one
+        """
         if db:
             self.db = db
         else:
@@ -76,14 +79,16 @@ class DatabaseAccessor:
         self.db.commit()
         return row_id if row_id else 0
 
-    # @app.teardown_appcontext
     def close(self):
-        # self.db = getattr(g, '_database', None)
+        """ Closes the database connection """
         if self.db is not None:
             self.db.close()
 
     @staticmethod
     def __make_dicts(cursor, row):
+        """ Converts the results of a database query into a list of dictionaries, where each key corresponds to the
+            column name and each value is the value of the cell for that row.
+        """
         return dict((cursor.description[idx][0], value)
                     for idx, value in enumerate(row))
 
@@ -117,6 +122,7 @@ class DatabaseCreator:
                    'image_url CHAR(200));'.format(FoodItem.DB_TABLE_NAME)]
 
     def init_db(self):
+        """ Creates the SQLite database file on the disk and creates the desired tables within the database """
         # Connecting to the database file
         conn = sqlite3.connect(DatabaseAccessor.DATABASE_PATH)
         c = conn.cursor()
@@ -181,6 +187,12 @@ class StoreInfoAccessor(DatabaseAccessor):
         return store
 
     def save_store(self, store, location_info_accessor=None):
+        """
+        Saves a store to the database.
+        :param store: the database to store
+        :param location_info_accessor: (optional) a LocationInfoAccessor (with a database connection) to use to save the location
+        :return: the new row ID in the database if a new record, None if updating existing
+        """
         if location_info_accessor:
             location_info_accessor.save_location(store.location)
         data = {
@@ -248,6 +260,7 @@ class LocationInfoAccessor(DatabaseAccessor):
         return loc
 
     def save_location(self, location):
+        """" Saves a location to the database """
         data = {
             'store_id': location.store_id,
             'street_address': location.street_address,

@@ -200,6 +200,7 @@ class TripStop:
         self.next_stop = None
 
     def get_items_as_string(self):
+        """ Returns the items as a nicely formatted string for display to the user. """
         if not self.items_to_get or len(self.items_to_get) == 0:
             return 'No needed items found at this store'
         res = 'Get ' + self.items_to_get[0]

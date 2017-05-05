@@ -1,4 +1,8 @@
-"""Use this file for Recipe and Recipe API related stuff."""
+"""Use this file for Recipe and Recipe API related stuff.
+
+    NOTE: THIS FILE IS NOT FULLY IMPLEMENTED
+
+"""
 
 
 """

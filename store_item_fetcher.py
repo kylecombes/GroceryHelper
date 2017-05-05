@@ -98,6 +98,7 @@ class StoreItemFetcher:
 
     @staticmethod
     def _check_store_for_items(store, ingredient):
+        """ Checks if each store has each item. If it does, it adds it to the list of items attached to the store object. """
         print('Checking store for ingredient {}'.format(ingredient))
         if StoreItemFetcher.does_store_have_item(ingredient, store.store_id):
             store.items.append(ingredient)

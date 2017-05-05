@@ -97,7 +97,7 @@ def getting_food(location=None,stops=None,cuisine=None, src=None):
 
                 num_stops = len(stops)
                 if num_stops > 0:
-                    src = Geolocation.get_directions(loc, stops)
+                    src = Geolocation.get_directions_request_url(loc, stops)
                     stops_html = ''
                     for i in range(1, num_stops):
                         stop_html = get_html_for_stop(stops[i], i)
@@ -139,7 +139,7 @@ def getting_address(location=None, stops=None, src=None):
 
                 num_stops = len(stops)
                 if num_stops > 0:
-                    src = Geolocation.get_directions(loc, stops)
+                    src = Geolocation.get_directions_request_url(loc, stops)
                     stops_html = ''
                     for i in range(1, num_stops):
                         stop_html = get_html_for_stop(stops[i], i)
